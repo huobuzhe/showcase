@@ -1,70 +1,57 @@
-# 企业智能体系统 · 功能快照（静态站部署说明）
+# 企业智能体系统 · 功能快照
 
-这个目录里的页面是**纯静态 HTML**：所有展示数据已经内嵌在页面里，不连接任何后端、不需要数据库、不需要 API Key、不需要云隧道。放到任何静态托管上都能打开，也不需要本机开机。
+> 在线地址：**https://huobuzhe.github.io/showcase/**（纯静态页，打开就能看，不需要装任何东西）
 
-## 文件内容
+## 一、这个网页是做什么的
 
-| 文件 | 用途 |
-|---|---|
-| `index.html` | 展示页，根路径直达 |
-| `showcase.html` | 同一份展示页，保留 `/showcase.html` 路径，方便沿用旧链接 |
-| `real.css` | 页面样式（上面两个页面引用它） |
-| `.nojekyll` | 让 GitHub Pages 跳过 Jekyll 处理 |
-| `.github/workflows/pages.yml` | 可选的自动部署工作流（用了它就不用手动开 Pages 分支） |
-| `../showcase-standalone.html` | 单文件版，样式已内联，单独发给别人双击也能看 |
+这是给**招聘方 / 面试官**看的作品集展示页：把两个 Agent 应用工程项目的**本机真实运行记录**做成可点选的网页。选中一个输入，页面就展开当时系统真实返回的输出、检索引用、评测结论与压测指标。
 
-## 页面内容
+它不是在线服务，也不连接任何后端：所有数据已经内嵌在 HTML 里，是 2026-11-13 的静态快照。因此不需要 API Key、数据库、Docker 或云主机，断网也能打开。真正可运行的工程在下面第四节的两个 GitHub 仓库里。
 
-四个功能区块 + 系统状态卡，共 15 个可点选的运行实例，全部取自 2026-11-13 本机真实运行记录：
+## 二、页面里具体有什么
 
-- **P1 知识库问答**：正常回答（带 3 条引用）、缓存命中、语料外问题证据不足拒答、过滤器空证据拒答、引用回链（原文 + 页码 + 版面定位）。
-- **P2 多工具智能体**：食材 + 病症的禁忌推理（命中与未命中）、知识图谱规模。
-- **P3 工作流编排**：完整流式输出、无食材时的降级路径。
-- **P4 评测与压测**：分层评测 + 门禁结论（BLOCKED）、只读门禁快照、并发压测报告（QPS / P99 表格）、只读压测快照。
+页面共 4 张卡片、15 个可点选的运行实例，默认完全空白；点按钮或选下拉框才渲染「系统回答」，随时可用「清空 / 清空全部」回到默认状态。段与段之间用横线分隔，引文放在可滚动的小窗口里，表格带边框线且字号更小。
 
-每个实例都标注了对应的真实接口、参数、HTTP 状态与本机耗时。评测报告里项目原文自带的 `pipeline_selfcheck` 口径说明原样保留，不把它当作系统质量结论。
+| 卡片 | 实例数 | 具体内容 |
+|---|---|---|
+| **循证医疗问答与证据溯源** | 5 | 正常回答（附 3 条引用）、缓存命中、语料外问题证据不足拒答、过滤器空证据拒答、引用回链（原文 + 页码 + 版面定位） |
+| **食养工作流与图谱推理平台** | 6 | 子块一「LangGraph 节点式工作流」2 例：完整流式输出、无食材时的降级路径；子块二「多跳知识图谱推理」4 例：食材 + 病症的禁忌推理命中 / 未命中、知识图谱规模 |
+| **评测门禁与性能回归** | 4 | 分层评测 + 门禁结论（BLOCKED）、只读门禁快照、并发压测报告（QPS / P99 表格）、只读压测快照 |
+| **系统状态（本机实测）** | — | 置底，列出代理元信息、服务端口、鉴权方式、知识图谱规模等本机环境事实 |
 
-## 方式 1：GitHub 网页上传（最省事，不用装工具）
+每个实例都标注了对应的真实接口、输入参数、HTTP 状态与本机耗时；评测报告里原始文件自带的 pipeline_selfcheck 口径说明原样保留，**不把它当作系统质量结论**。
 
-1. 在 GitHub 新建一个 **Public** 空仓库（例如 `agent-system-showcase`），**不要**勾选初始化 README。
-2. 打开仓库 → `Add file` → `Upload files`，把 `index.html`、`showcase.html`、`real.css` 三个文件拖进去（`.nojekyll` 可选），Commit changes。
-3. `Settings` → `Pages` → `Build and deployment` → `Source` 选 **Deploy from a branch** → Branch 选 `main` / `root` → Save。
-4. 等 1–2 分钟，访问：
-   - `https://<用户名>.github.io/<仓库名>/`
-   - `https://<用户名>.github.io/<仓库名>/showcase.html`
+技术上是零依赖、零构建的纯 HTML / CSS / JavaScript：index.html 与 showcase.html 是同一份页面，real.css 是样式，另有一个样式已内联的单文件版 showcase-standalone.html。
 
-想用工作流自动部署：把 `.github/workflows/pages.yml` 一起上传，并在 `Settings` → `Pages` → `Source` 改选 **GitHub Actions**；以后每次 push 会自动更新。两种方式二选一即可。
+## 三、别人如何在电脑上查看、使用和下载
 
-命令行版本（把 `<用户名>`、`<仓库名>` 换成自己的，仓库需先在 GitHub 建好）：
+**在线直接看**：打开 https://huobuzhe.github.io/showcase/ 即可，手机上也能看。
 
-```powershell
-cd F:\study_work\portfolio-showcase\deploy-pages
-git init
-git add .
-git commit -m "static showcase"
-git branch -M main
-git remote add origin https://github.com/<用户名>/<仓库名>.git
-git push -u origin main
-```
+**下载到电脑（三种方式，任选）**：
 
-## 方式 2：Vercel（拖拽或导入 Git 仓库）
+1. 单文件版：在仓库里下载 <code>showcase-standalone.html</code>（或浏览器打开后「右键 → 另存为」），双击就能打开，样式已内联，不需要其它文件。
+2. 下载整站：打开 https://github.com/huobuzhe/showcase → 绿色 <code>Code</code> 按钮 → <code>Download ZIP</code>，解压后得到 index.html / showcase.html / real.css。
+3. 用 Git：运行 <code>git clone https://github.com/huobuzhe/showcase.git</code>，之后还能 <code>git pull</code> 拿更新。
 
-vercel.com → `Add New…` → `Project` → 选择已推到 GitHub 的仓库导入（或安装 CLI 后在本目录执行 `vercel --prod`）。纯静态项目无需构建：Framework Preset 选 `Other`，Build Command 与 Output Directory 都留空。部署完得到 `https://<项目名>.vercel.app/`。
+**本地打开**：双击 <code>index.html</code>（file:// 直接可用）；或在该目录执行 <code>python -m http.server 8080</code> 后访问 <code>http://127.0.0.1:8080/</code>。
 
-## 方式 3：Netlify Drop（连仓库都不用建）
+**怎么用**：在卡片里点一个输入的按钮，或在下拉框里选一个输入 → 页面滚动到「系统回答」，展开输出、引用明细（可上下滑动）、耗时表格 → 换一个例子继续看，或点「清空」复位。全程不需要联网、不需要登录。
 
-打开 https://app.netlify.com/drop ，把整个目录拖进去，立即得到一个可分享域名；登录后可在 `Site settings` 里改成固定子域名。
+需要说明：这里展示的是**历史运行快照**，不是实时问答。若想在本机跑起真实服务，请看两个项目仓库里的 README 与 .env.example（需要自备 API Key、Docker 与语料）。
 
-## 本机验证
+## 四、真实数据来源与对应链接
 
-直接双击 `index.html`（`file://` 也可打开），或者：
+15 条实例全部来自 2026-11-13 本机两个项目的真实运行，不是 mock 数据。对应关系如下：
 
-```bash
-cd F:/study_work/portfolio-showcase/deploy-pages
-python -m http.server 8080
-# 浏览器打开 http://127.0.0.1:8080/
-```
+| 展示内容 | 来源接口 / 报告 | 对应仓库（点开可看源码与证据） |
+|---|---|---|
+| 医疗问答 5 例（含引用回链） | MedEviRAG <code>POST /v1/ask</code>、<code>GET /v1/citations/{chunk_id}</code> | **https://github.com/huobuzhe/MedEviRAG**（docs/evidence/ 内有评测报告 JSON） |
+| 食养工作流与图谱 6 例 | AI私厨 <code>POST /chat/stream</code>、<code>GET /kg/ask</code> | **https://github.com/huobuzhe/ai_chief** ← **AI私厨 的仓库链接**（reports/ 内有压测报告） |
+| 评测与压测 4 例 | MedEviRAG eval 门禁报告 + AI私厨 压测报告 | **https://github.com/huobuzhe/ai_chief** 与 **https://github.com/huobuzhe/MedEviRAG** |
+| 本展示页源码 | 静态 HTML / CSS / JS | **https://github.com/huobuzhe/showcase** |
+| 线上快照 | GitHub Pages | **https://huobuzhe.github.io/showcase/** |
 
-## 更新页面
+- **AI私厨（食养工作流与图谱推理平台）**：https://github.com/huobuzhe/ai_chief —— LangGraph StateGraph 节点式工作流、Neo4j 多跳图谱推理、流式问答、鉴权限流、监控与压测。
+- **MedEviRAG（循证医疗问答与证据溯源）**：https://github.com/huobuzhe/MedEviRAG —— RAG 检索/重排/生成/引用校验、证据分级与拒答、分层评测与 CI 回归门禁。
 
-重新采集运行记录并生成展示页后，把新的 `index.html` / `showcase.html` 覆盖进来再 push 一次即可。静态站与实时演示站互不影响：实时站走本机代理，静态站只依赖这两个 HTML。
+诚实声明：评测报告标注的 pipeline_selfcheck / llm_mode=fake 是流水线自检口径，不代表系统质量或临床有效性；压测数字只代表本机环境；页面为静态快照，与实时演示站互不影响。项目仅供学习与工程演示，不构成医疗建议。
