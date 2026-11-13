@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>企业智能体系统 · 功能快照</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--panel2:#1f242d;--fg:#e6e8eb;--muted:#9aa3ad;--accent:#4f9dff;--ok:#3ecf8e;--err:#ff6b6b;--border:#2a2f3a;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--fg);line-height:1.5}
+header{background:linear-gradient(90deg,#1b2330,#11161f);padding:18px 22px;border-bottom:1px solid var(--border)}
+header h1{margin:0;font-size:20px}
+header p{margin:6px 0 0;color:var(--muted);font-size:13px}
+.wrap{max-width:980px;margin:0 auto;padding:20px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:18px}
+.card h2{margin:0 0 4px;font-size:17px}
+.card .sub{color:var(--muted);font-size:13px;margin-bottom:14px}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+textarea,input[type=text],input[type=password],input[type=number]{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--fg);border-radius:8px;padding:10px;font-size:14px;font-family:inherit}
+textarea{min-height:72px;resize:vertical}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-size:14px;cursor:pointer}
+button:hover{filter:brightness(1.08)}
+button:disabled{opacity:.5;cursor:default}
+.status{font-size:13px;margin-top:8px}
+.status.running{color:var(--accent)}
+.status.ok{color:var(--ok)}
+.status.err{color:var(--err)}
+#p1-answer,#p3-out,#p3-kg-out,#p4-layers{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-top:12px;white-space:pre-wrap;min-height:48px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.bar{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px}
+.bar .bl{width:120px;color:var(--muted)}
+.bar .bt{background:var(--accent);color:#06101f;border-radius:6px;padding:2px 8px;text-align:right;min-width:60px}
+.cache{font-size:13px;color:var(--accent);margin-top:6px}
+.cit{border-top:1px solid var(--border);padding:10px 0}
+.cit-h{font-size:14px}
+.tag{background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:11px;color:var(--muted)}
+.cit-q{color:var(--muted);font-size:13px;margin:4px 0}
+.cit-detail{margin-top:6px}
+.cit-detail pre{background:#0c0e12;border:1px solid var(--border);padding:10px;border-radius:8px;white-space:pre-wrap;font-size:12px;color:#cdd6df}
+.err{color:var(--err);font-size:13px}
+.muted{color:var(--muted);font-size:13px}
+a{color:var(--accent)}
+.note{background:#1a2030;border-left:3px solid var(--accent);padding:10px 12px;border-radius:6px;font-size:13px;color:var(--muted);margin-top:12px}
+.badge{padding:2px 9px;border-radius:6px;font-size:12px;font-weight:600}
+.badge-ok{background:#16351f;color:#3ecf8e}
+.badge-err{background:#3a1414;color:#ff6b6b}
+.mdbox h2{font-size:16px;margin:14px 0 6px}
+.mdbox h3{font-size:14px;margin:12px 0 6px}
+.mdbox h4{font-size:13px;margin:10px 0 4px}
+.mdbox p{margin:6px 0}
+.mdbox blockquote{border-left:3px solid var(--accent);margin:8px 0;padding:4px 10px;color:var(--muted);background:#1a2030}
+.mdbox pre{background:#0c0e12;border:1px solid var(--border);border-radius:8px;padding:10px;overflow:auto;font-size:12px;color:#cdd6df}
+.mdbox table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13px}
+.mdbox th,.mdbox td{border:1px solid var(--border);padding:6px 8px;text-align:left}
+.mdbox th{background:var(--panel2)}
+
+/* ——— 展示页 v2：暗色主题统一 + 分段横线 + 表格美化 ——— */
+html{scroll-behavior:smooth}
+body{color:#e6e8eb}
+select,select option{background:#1f242d;color:#e6e8eb;border:1px solid #2a2f3a}
+.tbl,.tbl th,.tbl td,.txt,.para,.quote,.mdbox,.mdbox p,.mdbox h4,.mdbox td,.mdbox th,pre,code,.cit-h,.cit-url,.out-title,.sub,label,h1,h2,h3,.note,.nav a,.clear,.chips{color:#e6e8eb}
+.meta,.chip-tag,.muted,.cit-meta{color:#9aa3ad}
+header{background:linear-gradient(135deg,#111827 0%,#16233a 55%,#0e1116 100%);border-bottom:1px solid #2a2f3a;padding:26px 20px 22px;text-align:left}
+header h1{margin:0 0 8px;font-size:22px;letter-spacing:.5px;color:#fff;display:flex;align-items:center;gap:10px}
+header h1::before{content:'';display:inline-block;width:6px;height:22px;border-radius:3px;background:var(--accent)}
+header p{margin:0;color:#9aa3ad;font-size:13px;max-width:920px;line-height:1.75}
+.wrap{max-width:1100px;margin:0 auto;padding:22px 20px 44px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.nav a{display:inline-block;background:#1f242d;border:1px solid #2a2f3a;border-radius:8px;padding:8px 14px;text-decoration:none;font-size:13px;color:#e6e8eb;transition:all .15s ease}
+.nav a:hover{border-color:var(--accent);color:#fff;background:#243044;box-shadow:0 2px 10px rgba(79,140,255,.18)}
+.nav a.back{margin-left:auto;color:#9aa3ad}
+button.clear{background:transparent;color:#9aa3ad;border:1px solid #2a2f3a;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;transition:all .15s ease}
+button.clear:hover{color:#e6e8eb;border-color:var(--accent)}
+hr.sep{border:0;height:1px;background:linear-gradient(90deg,#2a2f3a 0%,#3a4658 45%,#2a2f3a 100%);margin:16px 0;opacity:.95}
+.card{background:var(--panel);border:1px solid var(--border);border-top:2px solid #34425b;border-radius:12px;padding:18px 20px;margin:0 0 18px;box-shadow:0 6px 24px rgba(0,0,0,.28)}
+.card:hover{border-color:#3a4658}
+.card.proj{border-top-color:var(--accent)}
+h2{font-size:19px;color:#fff;margin:0 0 8px;display:flex;align-items:center;gap:9px}
+h2::before{content:'';width:9px;height:9px;border-radius:2px;background:var(--accent);transform:rotate(45deg);flex:none}
+h3{font-size:15px;color:#fff;margin:14px 0 8px}
+.proj-wrap{margin:0 0 18px}
+.proj-title{font-size:20px}
+.lead,.sub-desc{color:#9aa3ad;font-size:13px;line-height:1.75;margin:0 0 14px;padding:2px 0 2px 12px;border-left:2px solid #34425b}
+.sub-card{background:#141922;border:1px solid var(--border);border-left:3px solid #3f5f9e;border-radius:10px;padding:16px 18px;margin:0 0 16px}
+.sub-card.kg{border-left-color:#2f8f68}
+.sub-card h3{margin:0 0 8px;font-size:16px}
+.sub-card .sub-desc{margin-bottom:12px}
+label{color:#e6e8eb;font-size:13px;font-weight:600;display:block;margin:0 0 8px}
+select{border-radius:8px;padding:9px 10px;font-size:13px;min-width:280px;max-width:100%;font-family:inherit;cursor:pointer}
+select option{color:#e6e8eb}
+.select-row{display:flex;align-items:center;gap:10px}
+.select-row select{flex:1}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 2px}
+.chip-wrap{display:inline-flex;flex-direction:column;max-width:230px}
+small.chip-tag{font-size:11px;color:#9aa3ad;margin:0 0 4px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+button.chip{background:#243044;color:#e6e8eb;border:1px solid #2a2f3a;border-radius:8px;padding:8px 12px;font-size:13px;text-align:left;white-space:normal;line-height:1.4;cursor:pointer;transition:all .15s ease}
+button.chip:hover{border-color:var(--accent);color:#fff}
+button.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.out{margin-top:14px;background:#11151c;border:1px solid #232a35;border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;font-size:13px}
+.out:empty{display:none}
+.out-title{font-size:15px;font-weight:600;color:#fff;margin:0 0 10px;padding-bottom:8px;border-bottom:1px solid #2a2f3a}
+.out h3{font-size:14px;color:#fff;margin:12px 0 8px}
+.out .txt,.out .para,.out .quote,.out pre,.out .mdbox,.out .mdbox p,.out .cit-h,.out .cit-meta,.out .cit-url,.out code{font-size:12.5px;line-height:1.7;color:#cdd6df}
+.out .badges{margin-bottom:8px}
+.out .meta,.out .note,.out .muted{font-size:12px;color:#9aa3ad}
+.tbl{border-collapse:collapse;width:100%;font-size:12.5px;margin:8px 0 6px;background:#12151c;color:#cdd6df;border:1px solid #2a2f3a;border-radius:6px}
+.tbl th,.tbl td{border:1px solid #2a2f3a;padding:6px 10px;text-align:left;vertical-align:top;font-size:12.5px;line-height:1.55;color:#cdd6df}
+.tbl th{background:#1f242d;color:#e6e8eb;font-weight:600;white-space:nowrap}
+.tbl tbody tr:nth-child(even) td{background:#171b23}
+.tbl tbody tr:hover td{background:#1c2432}
+.txt,.para,.quote{max-height:300px;overflow:auto;font-size:12.5px}
+pre{max-height:260px;overflow:auto;font-size:12px;line-height:1.6;color:#cdd6df;background:#0c0e12;border:1px solid #2a2f3a;border-radius:6px;padding:10px}
+.meta{color:#9aa3ad;word-break:break-all;margin:6px 0}
+.note{color:#9aa3ad;padding:8px 10px;background:#1a1e26;border-left:2px solid #34425b;border-radius:0 6px 6px 0;font-size:12px;line-height:1.7}
+.cit-scroll{max-height:260px;overflow-y:auto;border:1px solid #2a2f3a;border-radius:8px;background:#171a21;padding:8px 10px}
+.cit{padding:8px 0;border-bottom:1px dashed #2a2f3a}
+.cit:last-child{border-bottom:0}
+.cit-h{font-size:12.5px}
+.cit-meta,.cit-url{font-size:12px;color:#9aa3ad;margin:4px 0;word-break:break-all}
+.cit-q pre{max-height:110px;overflow-y:auto;white-space:pre-wrap;font-size:12px;color:#cdd6df;background:#0c0e12;border:1px solid #2a2f3a;border-radius:6px;padding:8px;margin:6px 0}
+.footnote{color:#9aa3ad;font-size:12px;line-height:1.8;margin-top:14px}
+.footnote a{color:#4f9dff}
+
+/* ——— 展示页 v3：一体框 / 系统状态字体 / 整体美化 ——— */
+.card,.proj-wrap{transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.card:hover,.proj-wrap:hover{box-shadow:0 10px 30px rgba(0,0,0,.38)}
+#medevi{border-top-color:#4f9dff}
+#eval{border-top-color:#a78bfa}
+#status{border-top-color:#3f5f9e}
+.card-no{margin-left:auto;flex:none;font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1px;color:#9aa3ad;background:#1f242d;border:1px solid #2a2f3a;border-radius:999px;padding:4px 9px;white-space:nowrap}
+.proj-wrap{background:var(--panel);border:1px solid var(--border);border-top:2px solid #2f8f68;border-radius:12px;padding:18px 20px;margin:0 0 18px;box-shadow:0 6px 24px rgba(0,0,0,.28)}
+.proj-wrap>h2.proj-title{margin-top:0}
+.proj-wrap>.lead{margin-bottom:12px}
+.sub-card{background:#11151c;border:1px solid #232a35;border-left:3px solid #3f5f9e;border-radius:8px;padding:14px 16px;margin:0 0 12px}
+.sub-card:last-child{margin-bottom:0}
+.sub-card.kg{border-left-color:#2f8f68}
+.sub-card h3{display:flex;align-items:center;margin:0 0 8px;font-size:15px}
+.sub-no{display:inline-block;flex:none;font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1px;color:#8fb6ff;background:#1b2740;border:1px solid #33456b;border-radius:999px;padding:4px 8px;margin-right:10px}
+.sub-card.kg .sub-no{color:#79d3aa;background:#142c25;border-color:#2c6a51}
+.sub-card .sub-desc{margin-bottom:10px;font-size:12.5px}
+@keyframes outFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.out:not(:empty){animation:outFade .22s ease both}
+button.chip{transition:all .16s ease}
+button.chip:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.32)}
+.tbl,.tbl th,.tbl td{font-variant-numeric:tabular-nums}
+.cit-scroll::-webkit-scrollbar,.txt::-webkit-scrollbar,.para::-webkit-scrollbar,pre::-webkit-scrollbar,.cit-q pre::-webkit-scrollbar{width:8px;height:8px}
+.cit-scroll::-webkit-scrollbar-thumb,.txt::-webkit-scrollbar-thumb,.para::-webkit-scrollbar-thumb,pre::-webkit-scrollbar-thumb,.cit-q pre::-webkit-scrollbar-thumb{background:#33405a;border-radius:8px}
+.nav a.active{background:#243044;border-color:var(--accent);color:#fff;box-shadow:0 2px 10px rgba(79,140,255,.18)}
+.status-card{background:linear-gradient(180deg,#171a21 0%,#131820 100%)}
+.status-card .lead{font-size:12px;line-height:1.7;margin-bottom:12px}
+#status .tbl{font-size:11.5px;margin:6px 0 10px;max-width:520px}
+#status .tbl th,#status .tbl td{font-size:11.5px;padding:5px 10px;line-height:1.65}
+#status .tbl th{letter-spacing:.3px}
+#status .tbl tbody td:first-child{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.3px;color:#cdd6df}
+#status .tbl tbody td:nth-child(2){color:#3ecf8e;font-weight:600}
+#status .tbl tbody td:nth-child(2)::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:#3ecf8e;margin-right:7px;vertical-align:1px;box-shadow:0 0 6px rgba(62,207,142,.6)}
+#status .tbl tbody td:nth-child(3){color:#cdd6df}
+.status-meta{display:flex;gap:10px;align-items:flex-start;background:#11151c;border:1px solid #232a35;border-radius:8px;padding:8px 11px;margin:0 0 8px;font-size:11px;line-height:1.7}
+.sm-k{flex:none;min-width:76px;color:#9fb4d8;font-weight:600;letter-spacing:.4px}
+.sm-v{flex:1;color:#a9b2bd;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;word-break:break-word}
+.sm-ok{color:#3ecf8e}
+#status .note{font-size:11px;line-height:1.75;color:#a9b2bd;margin-top:10px}
+
+</style>
+</head>
+<body id="top">
+<header>
+<h1>企业智能体系统 · 功能快照</h1>
+<p>全部内容来自本机真实运行记录（循证医疗问答 :8000 / 食养工作流 :8002 / 代理 :8787，2026-11-13）。数据已内嵌在页面里，不需要后端、不需要网络；选择输入或点击按钮即可查看当时的真实响应。</p>
+</header>
+<div class="wrap">
+<div class="nav">
+<a href="#medevi">循证医疗问答与证据溯源</a>
+<a href="#aichef">食养工作流与图谱推理平台</a>
+<a href="#eval">评测门禁与性能回归</a>
+<a href="#status">系统状态</a>
+<button type="button" class="clear" id="clear-all">清空全部</button>
+<a class="back" href="#top">↑ 回到页面顶部</a>
+</div>
+<hr class="sep">
+<section class="card proj" id="medevi">
+<h2>循证医疗问答与证据溯源<span class="card-no">01</span></h2>
+<p class="lead">企业知识库问答（RAG 可溯源 / 真实生成）：检索 → 重排 → 生成 → 引用校验 → 决策。含正常回答、缓存命中、语料外拒答、空证据拒答与引用回链，每条结论都能回溯到页码与原文。</p>
+<hr class="sep">
+<label>选择输入</label>
+<div class="select-row"><select id="sel-medevi"></select><button type="button" class="clear" id="clear-medevi">清空</button></div>
+<div class="chips" id="chips-medevi"></div>
+<div class="out" id="out-medevi"></div>
+</section>
+<hr class="sep">
+<section class="proj-wrap" id="aichef">
+<h2 class="proj-title">食养工作流与图谱推理平台<span class="card-no">02</span></h2>
+<p class="lead">以 LangGraph StateGraph 编排节点式工作流，配合 Neo4j 知识图谱多跳推理。下面两个子系统的标题与介绍默认同时展示，各自独立选择输入、查看输出。</p>
+<hr class="sep">
+<section class="sub-card" id="workflow">
+<h3><span class="sub-no">01</span>LangGraph 节点式工作流</h3>
+<p class="sub-desc">以 coordinator / nutritionist / recommender / recognizer / ranker / personal_chief 等专家节点组成的确定性工作流，通过 /chat/stream 流式吐字；无可用食材或图谱不可用时走降级路径，仍返回完整回答。</p>
+<label>选择输入</label>
+<div class="select-row"><select id="sel-workflow"></select><button type="button" class="clear" id="clear-workflow">清空</button></div>
+<div class="chips" id="chips-workflow"></div>
+<div class="out" id="out-workflow"></div>
+</section>
+<section class="sub-card kg" id="kg">
+<h3><span class="sub-no">02</span>多跳知识图谱推理</h3>
+<p class="sub-desc">基于 Neo4j 的食材—营养素—病症关系网络，按「食材 + 病症」做多跳禁忌推理：命中禁忌关系时给出依据，未命中时如实返回无关联，并可查询图谱规模。</p>
+<label>选择输入</label>
+<div class="select-row"><select id="sel-kg"></select><button type="button" class="clear" id="clear-kg">清空</button></div>
+<div class="chips" id="chips-kg"></div>
+<div class="out" id="out-kg"></div>
+</section>
+</section>
+<hr class="sep">
+<section class="card proj" id="eval">
+<h2>评测门禁与性能回归<span class="card-no">03</span></h2>
+<p class="lead">分层评测 + 劣化门禁 + Locust 压测报告；实时脚本结果与只读快照两种取数方式，附项目原口径说明。</p>
+<hr class="sep">
+<label>选择输入</label>
+<div class="select-row"><select id="sel-eval"></select><button type="button" class="clear" id="clear-eval">清空</button></div>
+<div class="chips" id="chips-eval"></div>
+<div class="out" id="out-eval"></div>
+</section>
+<hr class="sep">
+<section class="card status-card" id="status">
+<h2>系统状态（本机实测）<span class="card-no">04</span></h2>
+<p class="lead">采集时各后端与代理的连通情况，供核对上面的真实响应来自哪一套服务。</p>
+<table class="tbl"><thead><tr><th>后端</th><th>状态</th><th>HTTP</th></tr></thead><tbody>
+<tr><td>medevirag</td><td>ok</td><td>200</td></tr>
+<tr><td>aichef</td><td>ok</td><td>200</td></tr>
+</tbody></table>
+<div class="status-meta"><span class="sm-k">代理元信息</span><span class="sm-v">public=false · demo_login=true · eval_enabled=true</span></div>
+<div class="status-meta"><span class="sm-k">知识图谱规模</span><span class="sm-v">节点 Ingredient 142 / Recipe 60 / Nutrient 8 / Condition 6<br>关系 IN_RECIPE 332 / RICH_IN 80 / CONTRAINDICATED_FOR 51 / BENEFICIAL_FOR 35<br><span class="sm-ok">available=true</span></span></div>
+<div class="note">采集时间：2026-11-13T06:13:56.197Z；来源：本机 127.0.0.1:8787 代理 → 循证医疗问答 :8000 / 食养工作流 :8002，2026-11-13 实测。共 15 个预置例子；页面默认空白，选择输入后显示系统回答。</div>
+</section>
+<div class="footnote">所有数字、答案、引用、报告文本均为本机接口与脚本的原始返回，未改写、未补写；评测结果中的 pipeline_selfcheck 口径说明按项目原文保留。本页不连接任何后端，可离线打开。 <a href="#top">↑ 回到页面顶部</a></div>
+</div>
+<script>
+const DATA = {"p1":[{"key":"p1_answer","g":"p1","title":"① 正常回答：高血压患者日常饮食","input":"{\"question\":\"高血压患者日常饮食需要注意什么\",\"top_k\":10}","endpoint":"POST /api/medevirag/v1/ask","note":"真实生成 provider 返回带编号引用的中文答案；引用编号与检索证据块一一对应。","badges":[{"k":"状态","v":"answered","cls":"ok"},{"k":"缓存","v":"miss_answer","cls":""},{"k":"置信度","v":"0.7554","cls":""},{"k":"生成耗时","v":"6528 ms","cls":""},{"k":"引用","v":"3 条","cls":"ok"}],"sections":[{"t":"系统回答（真实输出）","k":"text","v":"高血压患者日常食养应遵循减钠增钾、饮食清淡，合理膳食、科学食养，吃动平衡、健康体重，戒烟限酒、心理平衡，监测血压、自我管理五条原则[C1]。\n每人每日食盐摄入量应逐步降至5g以下，并增加新鲜蔬菜、水果和豆类等富钾食物摄入[C1]。\n应少吃含高脂肪、高胆固醇的食物，所有高血压患者均应限制来源于各类食物的钠盐摄入[C1]。\n肾功能良好者可选择高钾低钠盐，但不建议服用钾补充剂（包括药物）来降低血压，肾功能不全者补钾前应咨询医生[C1]。\n中医食养可针对不同证型辨证施膳，如肝火上炎证饮食以清淡为主、平肝潜阳[C3]。\n此外应不吸烟、彻底戒烟，不饮或限制饮酒，并定期监测血压、遵医嘱进行生活方式干预和自我管理[C6]。"},{"t":"引用明细","k":"citations","v":[{"chunk_id":"1031_101719_234#三、#c07","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","三、 食养原则和建议"],"page":6,"quote":"对高血压患者的日常食养提出5 条原则和建议。包括：1.减\n\n钠增钾，饮食清淡。2.合理膳食，科学食养。3.吃动平衡，\n\n健康体重。4.戒烟限酒，心理平衡。5.监测血压，自我管理。\n\n(一) 减钠增钾，饮食清淡。\n\n每人每日食盐摄入量逐步降至5g 以下；增加富钾食物\n\n摄入。清淡饮食，少吃含高脂肪、高胆固醇的食物。\n\n钠盐摄入过多可增加高血压风险。我国居民膳食中75%\n\n以上的钠来自于家庭烹调盐，其次为高盐调味品。随着膳食\n\n模式的改变，加工食品也成为重要的钠盐摄入途径。所有高\n\n血压患者均应采取各种措施，限制来源于各类食物的钠盐摄\n\n入。增加膳食中钾摄入量可降低血压。建议增加富钾食物（如新鲜蔬","url":"medevirag://doc/1031_101719_234?page=6&bbox=90.0,164.7,513.4,726.4","evidence_level":"unknown"},{"chunk_id":"1031_101719_234#三、#c10","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","三、 食养原则和建议"],"page":8,"quote":"2.科学食养。饮食贵在“不伤其脏腑”，采取有效合理\n\n的中医食养对高血压有辅助预防和改善的作用。“辨证施膳”\n\n“辨体施膳”是中医食养的基本原则，应针对高血压的不同\n\n证型给予相应的饮食。\n\n肝火上炎证：饮食以清淡为主，平肝潜阳。\n\n痰湿内阻证：饮食以清淡易消化、少食多餐为主，健脾\n\n运湿。\n\n瘀血内阻证：饮食以清淡、温平为主，活血通络。\n\n阴虚阳亢证：饮食以清淡、养阴生津为主，滋阴潜阳。\n\n肾精不足证：饮食以偏温补为主，补益肝肾。\n\n气血两虚证：饮食以少食多餐、细软滋补为主，补益气\n\n血。\n\n冲任失调证：饮食以清淡、富含营养为主，调和冲任。\n\n(三) 吃动平衡，健康体重。\n\n推荐将体重维持在","url":"medevirag://doc/1031_101719_234?page=8&bbox=90.0,136.8,513.5,712.7","evidence_level":"unknown"},{"chunk_id":"1031_101719_234#18.5#c12","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","18.5 ~23.9kg/m"],"page":9,"quote":"血压水平。建议非高血压人群（为降低高血压发生风险）或\n\n高血压患者（为降低血压），除日常活动外，应有每周4～7\n\n天、每天累计30～60 分钟的中等强度身体活动。\n\n(四) 戒烟限酒，心理平衡。\n\n不吸烟，彻底戒烟，避免被动吸烟。戒烟可降低心血管\n\n疾病风险，强烈建议高血压患者戒烟。\n\n不饮或限制饮酒。即使少量饮酒也会对健康造成不良影\n\n响。过量饮酒显著增加高血压的发病风险，且其风险随着饮\n\n酒量的增加而增加。建议高血压患者不饮酒，饮酒者尽量戒\n\n酒。\n\n减轻精神压力，保持心理平衡。精神紧张可激活交感神\n\n经从而使血压升高，高血压患者应进行压力管理，可进行认\n\n知行为干预，如必要可到专业医疗机","url":"medevirag://doc/1031_101719_234?page=9&bbox=90.0,220.8,513.0,740.8","evidence_level":"unknown"}]},{"t":"链路耗时","k":"kv","v":{"cache":"miss_answer","retrieval_ms":247,"rerank_ms":8,"generation_ms":6528,"total_ms":6790,"trace_id":"72523fb1b03d463c"}},{"t":"各节点耗时（ms）","k":"kv","v":{"route":0,"rewrite":0,"retrieve":247,"filter":0,"rerank":8,"generate":6528,"verify":0,"decide":0}},{"t":"免责声明","k":"text","v":"本回答仅供技术验证，不构成诊疗建议。"},{"t":"原始响应","k":"json","v":{"trace":{"trace_id":"72523fb1b03d463c","cache":"miss_answer","retrieval_ms":247,"rerank_ms":8,"generation_ms":6528,"total_ms":6790,"nodes":{"route":0,"rewrite":0,"retrieve":247,"filter":0,"rerank":8,"generate":6528,"verify":0,"decide":0}},"status":"answered","answer":"高血压患者日常食养应遵循减钠增钾、饮食清淡，合理膳食、科学食养，吃动平衡、健康体重，戒烟限酒、心理平衡，监测血压、自我管理五条原则[C1]。\n每人每日食盐摄入量应逐步降至5g以下，并增加新鲜蔬菜、水果和豆类等富钾食物摄入[C1]。\n应少吃含高脂肪、高胆固醇的食物，所有高血压患者均应限制来源于各类食物的钠盐摄入[C1]。\n肾功能良好者可选择高钾低钠盐，但不建议服用钾补充剂（包括药物）来降低血压，肾功能不全者补钾前应咨询医生[C1]。\n中医食养可针对不同证型辨证施膳，如肝火上炎证饮食以清淡为主、平肝潜阳[C3]。\n此外应不吸烟、彻底戒烟，不饮或限制饮酒，并定期监测血压、遵医嘱进行生活方式干预和自我管理[C6]。","citations":[{"chunk_id":"1031_101719_234#三、#c07","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","三、 食养原则和建议"],"page":6,"quote":"对高血压患者的日常食养提出5 条原则和建议。包括：1.减\n\n钠增钾，饮食清淡。2.合理膳食，科学食养。3.吃动平衡，\n\n健康体重。4.戒烟限酒，心理平衡。5.监测血压，自我管理。\n\n(一) 减钠增钾，饮食清淡。\n\n每人每日食盐摄入量逐步降至5g 以下；增加富钾食物\n\n摄入。清淡饮食，少吃含高脂肪、高胆固醇的食物。\n\n钠盐摄入过多可增加高血压风险。我国居民膳食中75%\n\n以上的钠来自于家庭烹调盐，其次为高盐调味品。随着膳食\n\n模式的改变，加工食品也成为重要的钠盐摄入途径。所有高\n\n血压患者均应采取各种措施，限制来源于各类食物的钠盐摄\n\n入。增加膳食中钾摄入量可降低血压。建议增加富钾食物（如新鲜蔬","url":"medevirag://doc/1031_101719_234?page=6&bbox=90.0,164.7,513.4,726.4","evidence_level":"unknown"},{"chunk_id":"1031_101719_234#三、#c10","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","三、 食养原则和建议"],"page":8,"quote":"2.科学食养。饮食贵在“不伤其脏腑”，采取有效合理\n\n的中医食养对高血压有辅助预防和改善的作用。“辨证施膳”\n\n“辨体施膳”是中医食养的基本原则，应针对高血压的不同\n\n证型给予相应的饮食。\n\n肝火上炎证：饮食以清淡为主，平肝潜阳。\n\n痰湿内阻证：饮食以清淡易消化、少食多餐为主，健脾\n\n运湿。\n\n瘀血内阻证：饮食以清淡、温平为主，活血通络。\n\n阴虚阳亢证：饮食以清淡、养阴生津为主，滋阴潜阳。\n\n肾精不足证：饮食以偏温补为主，补益肝肾。\n\n气血两虚证：饮食以少食多餐、细软滋补为主，补益气\n\n血。\n\n冲任失调证：饮食以清淡、富含营养为主，调和冲任。\n\n(三) 吃动平衡，健康体重。\n\n推荐将体重维持在","url":"medevirag://doc/1031_101719_234?page=8&bbox=90.0,136.8,513.5,712.7","evidence_level":"unknown"},{"chunk_id":"1031_101719_234#18.5#c12","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","18.5 ~23.9kg/m"],"page":9,"quote":"血压水平。建议非高血压人群（为降低高血压发生风险）或\n\n高血压患者（为降低血压），除日常活动外，应有每周4～7\n\n天、每天累计30～60 分钟的中等强度身体活动。\n\n(四) 戒烟限酒，心理平衡。\n\n不吸烟，彻底戒烟，避免被动吸烟。戒烟可降低心血管\n\n疾病风险，强烈建议高血压患者戒烟。\n\n不饮或限制饮酒。即使少量饮酒也会对健康造成不良影\n\n响。过量饮酒显著增加高血压的发病风险，且其风险随着饮\n\n酒量的增加而增加。建议高血压患者不饮酒，饮酒者尽量戒\n\n酒。\n\n减轻精神压力，保持心理平衡。精神紧张可激活交感神\n\n经从而使血压升高，高血压患者应进行压力管理，可进行认\n\n知行为干预，如必要可到专业医疗机","url":"medevirag://doc/1031_101719_234?page=9&bbox=90.0,220.8,513.0,740.8","evidence_level":"unknown"}],"confidence":0.7554,"refusal_reason":null,"disclaimer":"本回答仅供技术验证，不构成诊疗建议。"}}],"http":200,"ms":6795},{"key":"p1_cache","g":"p1","title":"② 同一问题再问：缓存命中","input":"{\"question\":\"高血压患者日常饮食需要注意什么\",\"top_k\":10}（第二次请求）","endpoint":"POST /api/medevirag/v1/ask","note":"答案级缓存命中，generation_ms 与 total_ms 归零，直接复用上次的答案与引用。","badges":[{"k":"状态","v":"answered","cls":"ok"},{"k":"缓存","v":"hit","cls":"ok"},{"k":"生成耗时","v":"0 ms","cls":""},{"k":"引用","v":"3 条","cls":""}],"sections":[{"t":"系统回答（真实输出）","k":"text","v":"高血压患者日常食养应遵循减钠增钾、饮食清淡，合理膳食、科学食养，吃动平衡、健康体重，戒烟限酒、心理平衡，监测血压、自我管理五条原则[C1]。\n每人每日食盐摄入量应逐步降至5g以下，并增加新鲜蔬菜、水果和豆类等富钾食物摄入[C1]。\n应少吃含高脂肪、高胆固醇的食物，所有高血压患者均应限制来源于各类食物的钠盐摄入[C1]。\n肾功能良好者可选择高钾低钠盐，但不建议服用钾补充剂（包括药物）来降低血压，肾功能不全者补钾前应咨询医生[C1]。\n中医食养可针对不同证型辨证施膳，如肝火上炎证饮食以清淡为主、平肝潜阳[C3]。\n此外应不吸烟、彻底戒烟，不饮或限制饮酒，并定期监测血压、遵医嘱进行生活方式干预和自我管理[C6]。"},{"t":"引用明细","k":"citations","v":[{"chunk_id":"1031_101719_234#三、#c07","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","三、 食养原则和建议"],"page":6,"quote":"对高血压患者的日常食养提出5 条原则和建议。包括：1.减\n\n钠增钾，饮食清淡。2.合理膳食，科学食养。3.吃动平衡，\n\n健康体重。4.戒烟限酒，心理平衡。5.监测血压，自我管理。\n\n(一) 减钠增钾，饮食清淡。\n\n每人每日食盐摄入量逐步降至5g 以下；增加富钾食物\n\n摄入。清淡饮食，少吃含高脂肪、高胆固醇的食物。\n\n钠盐摄入过多可增加高血压风险。我国居民膳食中75%\n\n以上的钠来自于家庭烹调盐，其次为高盐调味品。随着膳食\n\n模式的改变，加工食品也成为重要的钠盐摄入途径。所有高\n\n血压患者均应采取各种措施，限制来源于各类食物的钠盐摄\n\n入。增加膳食中钾摄入量可降低血压。建议增加富钾食物（如新鲜蔬","url":"medevirag://doc/1031_101719_234?page=6&bbox=90.0,164.7,513.4,726.4","evidence_level":"unknown"},{"chunk_id":"1031_101719_234#三、#c10","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","三、 食养原则和建议"],"page":8,"quote":"2.科学食养。饮食贵在“不伤其脏腑”，采取有效合理\n\n的中医食养对高血压有辅助预防和改善的作用。“辨证施膳”\n\n“辨体施膳”是中医食养的基本原则，应针对高血压的不同\n\n证型给予相应的饮食。\n\n肝火上炎证：饮食以清淡为主，平肝潜阳。\n\n痰湿内阻证：饮食以清淡易消化、少食多餐为主，健脾\n\n运湿。\n\n瘀血内阻证：饮食以清淡、温平为主，活血通络。\n\n阴虚阳亢证：饮食以清淡、养阴生津为主，滋阴潜阳。\n\n肾精不足证：饮食以偏温补为主，补益肝肾。\n\n气血两虚证：饮食以少食多餐、细软滋补为主，补益气\n\n血。\n\n冲任失调证：饮食以清淡、富含营养为主，调和冲任。\n\n(三) 吃动平衡，健康体重。\n\n推荐将体重维持在","url":"medevirag://doc/1031_101719_234?page=8&bbox=90.0,136.8,513.5,712.7","evidence_level":"unknown"},{"chunk_id":"1031_101719_234#18.5#c12","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","18.5 ~23.9kg/m"],"page":9,"quote":"血压水平。建议非高血压人群（为降低高血压发生风险）或\n\n高血压患者（为降低血压），除日常活动外，应有每周4～7\n\n天、每天累计30～60 分钟的中等强度身体活动。\n\n(四) 戒烟限酒，心理平衡。\n\n不吸烟，彻底戒烟，避免被动吸烟。戒烟可降低心血管\n\n疾病风险，强烈建议高血压患者戒烟。\n\n不饮或限制饮酒。即使少量饮酒也会对健康造成不良影\n\n响。过量饮酒显著增加高血压的发病风险，且其风险随着饮\n\n酒量的增加而增加。建议高血压患者不饮酒，饮酒者尽量戒\n\n酒。\n\n减轻精神压力，保持心理平衡。精神紧张可激活交感神\n\n经从而使血压升高，高血压患者应进行压力管理，可进行认\n\n知行为干预，如必要可到专业医疗机","url":"medevirag://doc/1031_101719_234?page=9&bbox=90.0,220.8,513.0,740.8","evidence_level":"unknown"}]},{"t":"链路耗时","k":"kv","v":{"cache":"hit","retrieval_ms":0,"rerank_ms":0,"generation_ms":0,"total_ms":0,"trace_id":"56a750b0bb144698"}},{"t":"各节点耗时（ms）","k":"kv","v":{}},{"t":"免责声明","k":"text","v":"本回答仅供技术验证，不构成诊疗建议。"},{"t":"原始响应","k":"json","v":{"trace":{"trace_id":"56a750b0bb144698","cache":"hit","retrieval_ms":0,"rerank_ms":0,"generation_ms":0,"total_ms":0,"nodes":{}},"status":"answered","answer":"高血压患者日常食养应遵循减钠增钾、饮食清淡，合理膳食、科学食养，吃动平衡、健康体重，戒烟限酒、心理平衡，监测血压、自我管理五条原则[C1]。\n每人每日食盐摄入量应逐步降至5g以下，并增加新鲜蔬菜、水果和豆类等富钾食物摄入[C1]。\n应少吃含高脂肪、高胆固醇的食物，所有高血压患者均应限制来源于各类食物的钠盐摄入[C1]。\n肾功能良好者可选择高钾低钠盐，但不建议服用钾补充剂（包括药物）来降低血压，肾功能不全者补钾前应咨询医生[C1]。\n中医食养可针对不同证型辨证施膳，如肝火上炎证饮食以清淡为主、平肝潜阳[C3]。\n此外应不吸烟、彻底戒烟，不饮或限制饮酒，并定期监测血压、遵医嘱进行生活方式干预和自我管理[C6]。","citations":[{"chunk_id":"1031_101719_234#三、#c07","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","三、 食养原则和建议"],"page":6,"quote":"对高血压患者的日常食养提出5 条原则和建议。包括：1.减\n\n钠增钾，饮食清淡。2.合理膳食，科学食养。3.吃动平衡，\n\n健康体重。4.戒烟限酒，心理平衡。5.监测血压，自我管理。\n\n(一) 减钠增钾，饮食清淡。\n\n每人每日食盐摄入量逐步降至5g 以下；增加富钾食物\n\n摄入。清淡饮食，少吃含高脂肪、高胆固醇的食物。\n\n钠盐摄入过多可增加高血压风险。我国居民膳食中75%\n\n以上的钠来自于家庭烹调盐，其次为高盐调味品。随着膳食\n\n模式的改变，加工食品也成为重要的钠盐摄入途径。所有高\n\n血压患者均应采取各种措施，限制来源于各类食物的钠盐摄\n\n入。增加膳食中钾摄入量可降低血压。建议增加富钾食物（如新鲜蔬","url":"medevirag://doc/1031_101719_234?page=6&bbox=90.0,164.7,513.4,726.4","evidence_level":"unknown"},{"chunk_id":"1031_101719_234#三、#c10","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","三、 食养原则和建议"],"page":8,"quote":"2.科学食养。饮食贵在“不伤其脏腑”，采取有效合理\n\n的中医食养对高血压有辅助预防和改善的作用。“辨证施膳”\n\n“辨体施膳”是中医食养的基本原则，应针对高血压的不同\n\n证型给予相应的饮食。\n\n肝火上炎证：饮食以清淡为主，平肝潜阳。\n\n痰湿内阻证：饮食以清淡易消化、少食多餐为主，健脾\n\n运湿。\n\n瘀血内阻证：饮食以清淡、温平为主，活血通络。\n\n阴虚阳亢证：饮食以清淡、养阴生津为主，滋阴潜阳。\n\n肾精不足证：饮食以偏温补为主，补益肝肾。\n\n气血两虚证：饮食以少食多餐、细软滋补为主，补益气\n\n血。\n\n冲任失调证：饮食以清淡、富含营养为主，调和冲任。\n\n(三) 吃动平衡，健康体重。\n\n推荐将体重维持在","url":"medevirag://doc/1031_101719_234?page=8&bbox=90.0,136.8,513.5,712.7","evidence_level":"unknown"},{"chunk_id":"1031_101719_234#18.5#c12","doc_id":"1031_101719_234","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","18.5 ~23.9kg/m"],"page":9,"quote":"血压水平。建议非高血压人群（为降低高血压发生风险）或\n\n高血压患者（为降低血压），除日常活动外，应有每周4～7\n\n天、每天累计30～60 分钟的中等强度身体活动。\n\n(四) 戒烟限酒，心理平衡。\n\n不吸烟，彻底戒烟，避免被动吸烟。戒烟可降低心血管\n\n疾病风险，强烈建议高血压患者戒烟。\n\n不饮或限制饮酒。即使少量饮酒也会对健康造成不良影\n\n响。过量饮酒显著增加高血压的发病风险，且其风险随着饮\n\n酒量的增加而增加。建议高血压患者不饮酒，饮酒者尽量戒\n\n酒。\n\n减轻精神压力，保持心理平衡。精神紧张可激活交感神\n\n经从而使血压升高，高血压患者应进行压力管理，可进行认\n\n知行为干预，如必要可到专业医疗机","url":"medevirag://doc/1031_101719_234?page=9&bbox=90.0,220.8,513.0,740.8","evidence_level":"unknown"}],"confidence":0.7554,"refusal_reason":null,"disclaimer":"本回答仅供技术验证，不构成诊疗建议。"}}],"http":200,"ms":21},{"key":"p1_outofscope","g":"p1","title":"③ 语料外问题：证据不足拒答","input":"{\"question\":\"如何给汽车更换轮胎\",\"top_k\":10}","endpoint":"POST /api/medevirag/v1/ask","note":"本地语料没有可引用证据，系统拒答而不编造结论，并给出检索建议。","badges":[{"k":"状态","v":"refused","cls":"bad"},{"k":"拒答原因","v":"uncovered_topic","cls":"bad"},{"k":"置信度","v":"0","cls":""},{"k":"引用","v":"0 条","cls":""}],"sections":[{"t":"系统回答（真实输出）","k":"text","v":"我查了本地语料，没有找到能支撑这个问题的指南或文献原文。语料没覆盖不等于临床上没有答案，只说明我这套系统没有可引用的证据，因此我不给结论。\n建议：在中华医学会各专科分会指南库、或 UpToDate / DynaMed 检索该主题；若是罕见病，可考虑到罕见病诊疗协作网医院就诊。\n以上内容仅供技术验证与学习参考，不构成诊疗建议；任何用药与治疗决定请咨询执业医师。"},{"t":"链路耗时","k":"kv","v":{"cache":"miss_answer","retrieval_ms":167,"rerank_ms":8,"generation_ms":1742,"total_ms":1924,"trace_id":"201b262e20b84ccf"}},{"t":"各节点耗时（ms）","k":"kv","v":{"route":0,"rewrite":0,"retrieve":167,"filter":0,"rerank":8,"generate":1742,"verify":0,"decide":0}},{"t":"免责声明","k":"text","v":"本回答仅供技术验证，不构成诊疗建议。"},{"t":"原始响应","k":"json","v":{"trace":{"trace_id":"201b262e20b84ccf","cache":"miss_answer","retrieval_ms":167,"rerank_ms":8,"generation_ms":1742,"total_ms":1924,"nodes":{"route":0,"rewrite":0,"retrieve":167,"filter":0,"rerank":8,"generate":1742,"verify":0,"decide":0}},"status":"refused","answer":"我查了本地语料，没有找到能支撑这个问题的指南或文献原文。语料没覆盖不等于临床上没有答案，只说明我这套系统没有可引用的证据，因此我不给结论。\n建议：在中华医学会各专科分会指南库、或 UpToDate / DynaMed 检索该主题；若是罕见病，可考虑到罕见病诊疗协作网医院就诊。\n以上内容仅供技术验证与学习参考，不构成诊疗建议；任何用药与治疗决定请咨询执业医师。","citations":[],"confidence":0,"refusal_reason":"uncovered_topic","disclaimer":"本回答仅供技术验证，不构成诊疗建议。"}}],"http":200,"ms":1941},{"key":"p1_empty_evidence","g":"p1","title":"④ 过滤器命中空证据：拒答","input":"{\"question\":\"高血压患者日常饮食需要注意什么\",\"top_k\":10,\"filters\":{\"doc_id\":\"__no_such_doc__\"}}","endpoint":"POST /api/medevirag/v1/ask","note":"检索被过滤到零条证据，生成前即走拒答路径，展示证据门禁的兜底行为。","badges":[{"k":"状态","v":"refused","cls":"bad"},{"k":"拒答原因","v":"uncovered_topic","cls":"bad"},{"k":"置信度","v":"0","cls":""},{"k":"引用","v":"0 条","cls":""}],"sections":[{"t":"系统回答（真实输出）","k":"text","v":"我查了本地语料，没有找到能支撑这个问题的指南或文献原文。语料没覆盖不等于临床上没有答案，只说明我这套系统没有可引用的证据，因此我不给结论。\n建议：在中华医学会各专科分会指南库、或 UpToDate / DynaMed 检索该主题；若是罕见病，可考虑到罕见病诊疗协作网医院就诊。\n以上内容仅供技术验证与学习参考，不构成诊疗建议；任何用药与治疗决定请咨询执业医师。"},{"t":"链路耗时","k":"kv","v":{"cache":"miss_answer","retrieval_ms":128,"rerank_ms":6,"generation_ms":1736,"total_ms":1877,"trace_id":"c639bbe5b4474e54"}},{"t":"各节点耗时（ms）","k":"kv","v":{"route":0,"rewrite":0,"retrieve":128,"filter":0,"rerank":6,"generate":1736,"verify":0,"decide":0}},{"t":"免责声明","k":"text","v":"本回答仅供技术验证，不构成诊疗建议。"},{"t":"原始响应","k":"json","v":{"trace":{"trace_id":"c639bbe5b4474e54","cache":"miss_answer","retrieval_ms":128,"rerank_ms":6,"generation_ms":1736,"total_ms":1877,"nodes":{"route":0,"rewrite":0,"retrieve":128,"filter":0,"rerank":6,"generate":1736,"verify":0,"decide":0}},"status":"refused","answer":"我查了本地语料，没有找到能支撑这个问题的指南或文献原文。语料没覆盖不等于临床上没有答案，只说明我这套系统没有可引用的证据，因此我不给结论。\n建议：在中华医学会各专科分会指南库、或 UpToDate / DynaMed 检索该主题；若是罕见病，可考虑到罕见病诊疗协作网医院就诊。\n以上内容仅供技术验证与学习参考，不构成诊疗建议；任何用药与治疗决定请咨询执业医师。","citations":[],"confidence":0,"refusal_reason":"uncovered_topic","disclaimer":"本回答仅供技术验证，不构成诊疗建议。"}}],"http":200,"ms":1893},{"key":"p1_citation","g":"p1","title":"⑤ 引用回链：查看原文与页码","input":"chunk_id=\"1031_101719_234#三、#c07\"","endpoint":"GET /api/medevirag/v1/citations/{chunk_id}","note":"点引用编号即回链到原文块：文档、章节路径、页码、bbox 定位与证据等级。","badges":[{"k":"文档","v":"成人高血压食养指南 （2023 年版）","cls":""},{"k":"页码","v":"6–6","cls":""},{"k":"块类型","v":"recommendation","cls":""},{"k":"证据等级","v":"unknown","cls":""}],"sections":[{"t":"上下文标题","k":"text","v":"《成人高血压食养指南 （2023 年版）》 > 三、 食养原则和建议"},{"t":"原文全文","k":"text","v":"对高血压患者的日常食养提出5 条原则和建议。包括：1.减\n\n钠增钾，饮食清淡。2.合理膳食，科学食养。3.吃动平衡，\n\n健康体重。4.戒烟限酒，心理平衡。5.监测血压，自我管理。\n\n(一) 减钠增钾，饮食清淡。\n\n每人每日食盐摄入量逐步降至5g 以下；增加富钾食物\n\n摄入。清淡饮食，少吃含高脂肪、高胆固醇的食物。\n\n钠盐摄入过多可增加高血压风险。我国居民膳食中75%\n\n以上的钠来自于家庭烹调盐，其次为高盐调味品。随着膳食\n\n模式的改变，加工食品也成为重要的钠盐摄入途径。所有高\n\n血压患者均应采取各种措施，限制来源于各类食物的钠盐摄\n\n入。增加膳食中钾摄入量可降低血压。建议增加富钾食物（如新鲜蔬菜、水果和豆类等）的摄入量；肾功能良好者可选择高钾低钠盐。不建议服用钾补充剂（包括药物）来降低血压。肾功能不全者补钾前应咨询医生。"},{"t":"元数据","k":"kv","v":{"doc_title":"成人高血压食养指南 （2023 年版）","chunk_type":"recommendation","section_path":"（2023 年版） / 三、 食养原则和建议","page_start":6,"page_end":6,"evidence_level":"unknown","rec_strength":"unknown"}},{"t":"定位信息（locator）","k":"json","v":{"page":6,"block_index":6,"bbox":[90,164.7,513.4,726.4]}},{"t":"原始响应","k":"json","v":{"chunk_id":"1031_101719_234#三、#c07","parent_id":"","doc_title":"成人高血压食养指南 （2023 年版）","section_path":["（2023 年版）","三、 食养原则和建议"],"chunk_type":"recommendation","text":"对高血压患者的日常食养提出5 条原则和建议。包括：1.减\n\n钠增钾，饮食清淡。2.合理膳食，科学食养。3.吃动平衡，\n\n健康体重。4.戒烟限酒，心理平衡。5.监测血压，自我管理。\n\n(一) 减钠增钾，饮食清淡。\n\n每人每日食盐摄入量逐步降至5g 以下；增加富钾食物\n\n摄入。清淡饮食，少吃含高脂肪、高胆固醇的食物。\n\n钠盐摄入过多可增加高血压风险。我国居民膳食中75%\n\n以上的钠来自于家庭烹调盐，其次为高盐调味品。随着膳食\n\n模式的改变，加工食品也成为重要的钠盐摄入途径。所有高\n\n血压患者均应采取各种措施，限制来源于各类食物的钠盐摄\n\n入。增加膳食中钾摄入量可降低血压。建议增加富钾食物（如新鲜蔬菜、水果和豆类等）的摄入量；肾功能良好者可选择高钾低钠盐。不建议服用钾补充剂（包括药物）来降低血压。肾功能不全者补钾前应咨询医生。","context_header":"《成人高血压食养指南 （2023 年版）》 > 三、 食养原则和建议","page_start":6,"page_end":6,"locator":{"page":6,"block_index":6,"bbox":[90,164.7,513.4,726.4]},"evidence_level":"unknown","rec_strength":"unknown"}}],"http":200,"ms":4}],"p2":[{"key":"kg_potato_diabetes","g":"p2","title":"① 土豆 + 糖尿病：命中禁忌关联","input":"ingredient=土豆  condition=糖尿病","endpoint":"GET /api/aichef/kg/ask（经代理）","note":"Neo4j 多跳推理命中：GI 值高，返回控量结论、营养成分与受影响菜谱。","badges":[{"k":"判定","v":"建议控制食用量","cls":"warn"},{"k":"图谱可用","v":"true","cls":"ok"}],"sections":[{"t":"判定理由","k":"text","v":"GI值较高，升血糖快，建议控制份量"},{"t":"营养成分","k":"table","v":[{"nutrient":"钾","level":"高","note":"高血压人群友好（促排钠），但肾病患者需限制"},{"nutrient":"碳水","level":"高","note":"燕麦藜麦为低GI优质碳水，精米面土豆红薯为高GI碳水"}]},{"t":"受影响菜谱","k":"table","v":[{"recipe_id":"R010","name":"地三鲜","calories":320},{"recipe_id":"R011","name":"酸辣土豆丝","calories":190}]},{"t":"原始响应","k":"json","v":{"ingredient":"土豆","condition":"糖尿病","verdict":"建议控制食用量","reason":"GI值较高，升血糖快，建议控制份量","nutrients":[{"nutrient":"钾","level":"高","note":"高血压人群友好（促排钠），但肾病患者需限制"},{"nutrient":"碳水","level":"高","note":"燕麦藜麦为低GI优质碳水，精米面土豆红薯为高GI碳水"}],"affected_recipes":[{"recipe_id":"R010","name":"地三鲜","calories":320},{"recipe_id":"R011","name":"酸辣土豆丝","calories":190}],"graph_available":true}}],"http":200,"ms":35},{"key":"kg_rice_hypertension","g":"p2","title":"② 米饭 + 高血压：未发现禁忌关联","input":"ingredient=米饭  condition=高血压","endpoint":"GET /api/aichef/kg/ask（经代理）","note":"图谱有数据、但该组合未收录禁忌边，返回保守提示而非编造结论。","badges":[{"k":"判定","v":"未发现禁忌关联","cls":""},{"k":"图谱可用","v":"true","cls":"ok"}],"sections":[{"t":"判定理由","k":"text","v":"图谱未收录该食材与该状况的关系，请咨询专业营养师"},{"t":"营养成分","k":"table","v":[{"nutrient":"碳水","level":"高","note":"燕麦藜麦为低GI优质碳水，精米面土豆红薯为高GI碳水"}]},{"t":"受影响菜谱","k":"table","v":[{"recipe_id":"R041","name":"扬州炒饭","calories":580}]},{"t":"原始响应","k":"json","v":{"ingredient":"米饭","condition":"高血压","verdict":"未发现禁忌关联","reason":"图谱未收录该食材与该状况的关系，请咨询专业营养师","nutrients":[{"nutrient":"碳水","level":"高","note":"燕麦藜麦为低GI优质碳水，精米面土豆红薯为高GI碳水"}],"affected_recipes":[{"recipe_id":"R041","name":"扬州炒饭","calories":580}],"graph_available":true}}],"http":200,"ms":14},{"key":"kg_spinach_kidney","g":"p2","title":"③ 菠菜 + 肾结石：未发现禁忌关联","input":"ingredient=菠菜  condition=肾结石","endpoint":"GET /api/aichef/kg/ask（经代理）","note":"另一组空关联例子，展示工具在证据不足时的下限行为。","badges":[{"k":"判定","v":"未发现禁忌关联","cls":""},{"k":"图谱可用","v":"true","cls":"ok"}],"sections":[{"t":"判定理由","k":"text","v":"图谱未收录该食材与该状况的关系，请咨询专业营养师"},{"t":"营养成分","k":"table","v":[]},{"t":"受影响菜谱","k":"table","v":[]},{"t":"原始响应","k":"json","v":{"ingredient":"菠菜","condition":"肾结石","verdict":"未发现禁忌关联","reason":"图谱未收录该食材与该状况的关系，请咨询专业营养师","nutrients":[],"affected_recipes":[],"graph_available":true}}],"http":200,"ms":32},{"key":"kg_stats","g":"p2","title":"④ 知识图谱规模","input":"无参数","endpoint":"GET /api/aichef/kg/stats（经代理）","note":"图谱实例统计：节点四类、关系四类，全部来自已连接的 Neo4j。","badges":[{"k":"图谱可用","v":"true","cls":"ok"},{"k":"节点类别","v":"4 类","cls":""},{"k":"关系类别","v":"4 类","cls":""}],"sections":[{"t":"节点统计","k":"table","v":[{"label":"Ingredient","count":142},{"label":"Recipe","count":60},{"label":"Nutrient","count":8},{"label":"Condition","count":6}]},{"t":"关系统计","k":"table","v":[{"type":"IN_RECIPE","count":332},{"type":"RICH_IN","count":80},{"type":"CONTRAINDICATED_FOR","count":51},{"type":"BENEFICIAL_FOR","count":35}]},{"t":"原始响应","k":"json","v":{"nodes":[{"label":"Ingredient","count":142},{"label":"Recipe","count":60},{"label":"Nutrient","count":8},{"label":"Condition","count":6}],"relationships":[{"type":"IN_RECIPE","count":332},{"type":"RICH_IN","count":80},{"type":"CONTRAINDICATED_FOR","count":51},{"type":"BENEFICIAL_FOR","count":35}],"available":true}}],"http":200,"ms":538}],"p3":[{"key":"chat_dinner","g":"p3","title":"① 完整对话：真实流式输出","input":"对话消息：糖尿病晚餐与低油菜谱咨询；接口原始输出见下方","endpoint":"POST /api/aichef/chat/stream（Bearer token）","note":"LangGraph StateGraph 编排的多节点工作流，逐段流式吐出最终中文回答。","badges":[{"k":"HTTP","v":"200","cls":"ok"},{"k":"输出字符","v":"1618","cls":""},{"k":"本机耗时","v":"17929 ms","cls":""}],"sections":[{"t":"流式输出全文（接口原始返回拼接）","k":"text","v":"您好！我是您的 AI 私厨助手。\n\n注意到您本次未提供具体的现有食材，因此我无法基于“冰箱里有什么”来生成定制食谱。不过，既然您提到了**糖尿病饮食管理**的需求，我为您整理了一份通用的、符合低升糖指数（Low GI）原则的晚餐搭配建议及营养依据，供您参考。\n\n## 食材清单\n由于未识别到具体食材，以下为您推荐适合糖尿病人的常备优质食材：\n\n*   **推荐主食**：糙米、燕麦、荞麦、藜麦、红薯（需替代部分主食）。\n    *   *提示*：请选择完整谷物，避免精米白面。\n*   **推荐蛋白质**：鸡胸肉、鱼肉（特别是深海鱼）、豆腐、鸡蛋。\n    *   *提示*：选择低脂高蛋白来源。\n*   **推荐蔬菜**：西兰花、菠菜、芹菜、黄瓜、番茄、苦瓜。\n    *   *提示*：绿叶蔬菜可大量食用，富含膳食纤维有助于延缓血糖上升。\n*   **不可用/慎用提醒**：\n    *   避免含糖饮料、果汁。\n    *   避免高淀粉蔬菜作为单一主食（如土豆泥、煮烂的南瓜），若食用需严格计算碳水总量。\n\n## 营养概览\n*注：因无具体菜品，以下为基于糖尿病晚餐通用标准的估算值*\n\n建议晚餐热量控制在 **400-500 千卡**左右（约占全天1800千卡的25%-30%）。三大营养素比例建议为：碳水化合物 40%-45%，蛋白质 20%-25%，脂肪 30%-35%。重点在于选择低 GI 碳水和高纤维食物，以平稳餐后血糖。\n\n## 推荐菜谱\n以下是三道适合糖尿病人的经典晚餐搭配：\n\n### 1. 清蒸鲈鱼配白灼西兰花\n*   **为什么推荐**：鲈鱼富含优质蛋白和不饱和脂肪酸，对心血管友好；西兰花富含铬元素和纤维，有助于提高胰岛素敏感性。烹饪方式少油少盐，减轻代谢负担。\n*   **主要食材**：鲈鱼片、西兰花、姜丝、少许生抽。\n*   **简要步骤**：\n    1. 鲈鱼抹少许料酒和姜丝，水开后蒸8-10分钟。\n    2. 西兰花焯水断生，捞出沥干。\n    3. 淋上少量蒸鱼豉油或自制低钠酱汁即可。\n*   **热量**：约 350 千卡\n\n### 2. 杂粮饭拌鸡胸肉丁\n*   **为什么推荐**：杂粮（如糙米+黑米）的升糖指数远低于白米饭，能提供更持久的饱腹感并减缓血糖波动。鸡胸肉低脂高蛋白，有助于维持肌肉量。\n*   **主要食材**：熟杂粮饭（1小碗）、鸡胸肉、黄瓜丁、胡萝卜丁。\n*   **简要步骤**：\n    1. 鸡胸肉切丁，用少许黑胡椒和生抽腌制后炒熟或水煮。\n    2. 将熟杂粮饭与鸡肉丁、黄瓜丁、胡萝卜丁混合。\n    3. 可加入少量橄榄油拌匀，增加健康脂肪摄入。\n*   **热量**：约 420 千卡\n\n### 3. 豆腐海带味噌汤配凉拌菠菜\n*   **为什么推荐**：大豆异黄酮和海带中的多糖类物质对调节血糖有益。这道菜水分含量高、热量低，且富含可溶性膳食纤维，能有效延缓糖分吸收。\n*   **主要食材**：嫩豆腐、干海带（泡发）、菠菜、无糖味噌酱。\n*   **简要步骤**：\n    1. 水中放入海带煮出鲜味，加入切块豆腐煮2分钟。\n    2. 关火前溶入少量味噌酱（注意控制钠含量）。\n    3. 菠菜焯水后挤干水分，加少许蒜末和醋凉拌，作为配菜。\n*   **热量**：约 280 千卡\n\n## 小贴士\n结合您的健康管理目标，给您两条实用建议：\n\n1.  **调整进食顺序**：尝试按照“喝汤/水 -> 吃蔬菜 -> 吃蛋白质（肉/蛋/豆）-> 最后吃主食”的顺序进餐。研究表明，这种顺序可以显著降低餐后血糖峰值。\n2.  **关注“隐形糖”与烹饪方式**：尽量避免红烧、糖醋等需要大量加糖的烹饪方式。外出就餐时，注意避开勾芡浓稠的菜肴，因为淀粉勾芡会迅速转化为葡萄糖。\n\n*祝您用餐愉快，血糖平稳！如果有具体食材想要处理，欢迎随时告诉我。*"},{"t":"原始响应","k":"json","v":{"_raw":"您好！我是您的 AI 私厨助手。\n\n注意到您本次未提供具体的现有食材，因此我无法基于“冰箱里有什么”来生成定制食谱。不过，既然您提到了**糖尿病饮食管理**的需求，我为您整理了一份通用的、符合低升糖指数（Low GI）原则的晚餐搭配建议及营养依据，供您参考。\n\n## 食材清单\n由于未识别到具体食材，以下为您推荐适合糖尿病人的常备优质食材：\n\n*   **推荐主食**：糙米、燕麦、荞麦、藜麦、红薯（需替代部分主食）。\n    *   *提示*：请选择完整谷物，避免精米白面。\n*   **推荐蛋白质**：鸡胸肉、鱼肉（特别是深海鱼）、豆腐、鸡蛋。\n    *   *提示*：选择低脂高蛋白来源。\n*   **推荐蔬菜**：西兰花、菠菜、芹菜、黄瓜、番茄、苦瓜。\n    *   *提示*：绿叶蔬菜可大量食用，富含膳食纤维有助于延缓血糖上升。\n*   **不可用/慎用提醒**：\n    *   避免含糖饮料、果汁。\n    *   避免高淀粉蔬菜作为单一主食（如土豆泥、煮烂的南瓜），若食用需严格计算碳水总量。\n\n## 营养概览\n*注：因无具体菜品，以下为基于糖尿病晚餐通用标准的估算值*\n\n建议晚餐热量控制在 **400-500 千卡**左右（约占全天1800千卡的25%-30%）。三大营养素比例建议为：碳水化合物 40%-45%，蛋白质 20%-25%，脂肪 30%-35%。重点在于选择低 GI 碳水和高纤维食物，以平稳餐后血糖。\n\n## 推荐菜谱\n以下是三道适合糖尿病人的经典晚餐搭配：\n\n### 1. 清蒸鲈鱼配白灼西兰花\n*   **为什么推荐**：鲈鱼富含优质蛋白和不饱和脂肪酸，对心血管友好；西兰花富含铬元素和纤维，有助于提高胰岛素敏感性。烹饪方式少油少盐，减轻代谢负担。\n*   **主要食材**：鲈鱼片、西兰花、姜丝、少许生抽。\n*   **简要步骤**：\n    1. 鲈鱼抹少许料酒和姜丝，水开后蒸8-10分钟。\n    2. 西兰花焯水断生，捞出沥干。\n    3. 淋上少量蒸鱼豉油或自制低钠酱汁即可。\n*   **热量**：约 350 千卡\n\n### 2. 杂粮饭拌鸡胸肉丁\n*   **为什么推荐**：杂粮（如糙米+黑米）的升糖指数远低于白米饭，能提供更持久的饱腹感并减缓血糖波动。鸡胸肉低脂高蛋白，有助于维持肌肉量。\n*   **主要食材**：熟杂粮饭（1小碗）、鸡胸肉、黄瓜丁、胡萝卜丁。\n*   **简要步骤**：\n    1. 鸡胸肉切丁，用少许黑胡椒和生抽腌制后炒熟或水煮。\n    2. 将熟杂粮饭与鸡肉丁、黄瓜丁、胡萝卜丁混合。\n    3. 可加入少量橄榄油拌匀，增加健康脂肪摄入。\n*   **热量**：约 420 千卡\n\n### 3. 豆腐海带味噌汤配凉拌菠菜\n*   **为什么推荐**：大豆异黄酮和海带中的多糖类物质对调节血糖有益。这道菜水分含量高、热量低，且富含可溶性膳食纤维，能有效延缓糖分吸收。\n*   **主要食材**：嫩豆腐、干海带（泡发）、菠菜、无糖味噌酱。\n*   **简要步骤**：\n    1. 水中放入海带煮出鲜味，加入切块豆腐煮2分钟。\n    2. 关火前溶入少量味噌酱（注意控制钠含量）。\n    3. 菠菜焯水后挤干水分，加少许蒜末和醋凉拌，作为配菜。\n*   **热量**：约 280 千卡\n\n## 小贴士\n结合您的健康管理目标，给您两条实用建议：\n\n1.  **调整进食顺序**：尝试按照“喝汤/水 -> 吃蔬菜 -> 吃蛋白质（肉/蛋/豆）-> 最后吃主食”的顺序进餐。研究表明，这种顺序可以显著降低餐后血糖峰值。\n2.  **关注“隐形糖”与烹饪方式**：尽量避免红烧、糖醋等需要大量加糖的烹饪方式。外出就餐时，注意避开勾芡浓稠的菜肴，因为淀粉勾芡会迅速转化为葡萄糖。\n\n*祝您用餐愉快，血糖平稳！如果有具体食材想要处理，欢迎随时告诉我。*"}}],"http":200,"ms":17929},{"key":"chat_workflow","g":"p3","title":"② 工作流降级路径：无食材识别","input":"对话消息：用现有食材做低油晚餐；接口原始输出见下方","endpoint":"POST /api/aichef/chat/stream（Bearer token）","note":"识别节点没有拿到输入食材时的降级输出：分节给出提示与备餐建议，不中断流程。","badges":[{"k":"HTTP","v":"200","cls":"ok"},{"k":"输出字符","v":"296","cls":""},{"k":"本机耗时","v":"4266 ms","cls":""}],"sections":[{"t":"流式输出全文（接口原始返回拼接）","k":"text","v":"## 食材清单\n*   **识别结果**：未识别到任何食材。\n*   **提示**：请拍摄或上传您冰箱/厨房中的食材照片，以便我为您进行分析和推荐。\n\n## 营养概览\n暂缺（因未识别到具体食材，无法进行营养估算）。\n\n## 推荐菜谱\n暂缺（因缺乏可用食材，无法生成具体的低油菜谱）。\n\n## 小贴士\n*   **备餐建议**：为了随时能制作低油健康餐，建议您常备一些耐储存的蔬菜（如西兰花、胡萝卜、菌菇类）以及优质蛋白（如鸡胸肉、虾仁、豆腐）。\n*   **烹饪技巧**：制作低油菜时，可以尝试使用不粘锅配合少量喷雾油，或利用食材本身的水分进行“水油焖炒”，既能保留风味又能大幅降低油脂摄入。"},{"t":"原始响应","k":"json","v":{"_raw":"## 食材清单\n*   **识别结果**：未识别到任何食材。\n*   **提示**：请拍摄或上传您冰箱/厨房中的食材照片，以便我为您进行分析和推荐。\n\n## 营养概览\n暂缺（因未识别到具体食材，无法进行营养估算）。\n\n## 推荐菜谱\n暂缺（因缺乏可用食材，无法生成具体的低油菜谱）。\n\n## 小贴士\n*   **备餐建议**：为了随时能制作低油健康餐，建议您常备一些耐储存的蔬菜（如西兰花、胡萝卜、菌菇类）以及优质蛋白（如鸡胸肉、虾仁、豆腐）。\n*   **烹饪技巧**：制作低油菜时，可以尝试使用不粘锅配合少量喷雾油，或利用食材本身的水分进行“水油焖炒”，既能保留风味又能大幅降低油脂摄入。"}}],"http":200,"ms":4266}],"p4":[{"key":"eval_medevirag","g":"p4","title":"① 实时评测 + 门禁（MedEviRAG）","input":"无请求体：执行项目自带分层评测与劣化探针脚本","endpoint":"POST /api/eval/medevirag","note":"真实执行 layers build/verify 与 degrade_probe.py，把 top_k 从 10 砍到 1，验证门禁是否拦住劣化。","badges":[{"k":"门禁","v":"BLOCKED","cls":"bad"},{"k":"可发布","v":"false","cls":"bad"},{"k":"评测层","v":"core_80","cls":""},{"k":"top_k","v":"10 → 1","cls":""}],"sections":[{"t":"脚本原始输出（layers_stdout）","k":"pre","v":"> F:\\MedEviRAG\\.venv\\Scripts\\python.exe -m medevirag.eval.layers build\n[WARN] SPLIT_DISTRIBUTION_MISMATCH: freeze.json 声称 {'dev': 128, 'test': 32}，实际 jsonl 是 {'dev': 160}；P0 不信任原 split 字段，改由本模块按确定性算法重新分层\n[layers] smoke_20: n=20 by_type={'answerable': 11, 'should_refuse': 6, 'multi_hop': 3} must_refuse=6\n[layers] core_80: n=80 by_type={'answerable': 45, 'multi_hop': 10, 'should_refuse': 25} must_refuse=25\n[layers] full_160: n=160 by_type={'answerable': 90, 'multi_hop': 20, 'should_refuse': 50} must_refuse=50\n[layers] meta -> F:\\MedEviRAG\\data\\eval\\layers\\layers_meta.json\n\n> F:\\MedEviRAG\\.venv\\Scripts\\python.exe -m medevirag.eval.layers verify\n[layers] verify OK\n\n> F:\\MedEviRAG\\.venv\\Scripts\\python.exe scripts/eval/degrade_probe.py\n[probe] recall_at_10: 1.0 -> 0.0\n[probe] hit_at_10: 1.0 -> 0.0\n[probe] mrr: 1.0 -> 0.0\n[probe] ndcg_at_10: 1.0 -> 0.0\n[GATE] THRESHOLD_FAIL recall_at_10=0.0 目标>=0.85\n[GATE] THRESHOLD_FAIL mrr=0.0 目标>=0.62\n[GATE] THRESHOLD_FAIL ndcg_at_10=0.0 目标>=0.7\n[GATE] HARD_DROP recall_at_10: 1.0 -> 0.0 (delta=-1.0)\n[GATE] HARD_DROP mrr: 1.0 -> 0.0 (delta=-1.0)\n[GATE] HARD_DROP ndcg_at_10: 1.0 -> 0.0 (delta=-1.0)\n[probe] gate=BLOCKED | evidence -> F:\\MedEviRAG\\data\\reports\\p0_degrade_probe.json\n"},{"t":"门禁指标对比","k":"table","v":[{"指标":"recall_at_10","baseline (top_k=10)":1,"degraded (top_k=1)":0,"差值":-1},{"指标":"hit_at_10","baseline (top_k=10)":1,"degraded (top_k=1)":0,"差值":-1},{"指标":"mrr","baseline (top_k=10)":1,"degraded (top_k=1)":0,"差值":-1},{"指标":"ndcg_at_10","baseline (top_k=10)":1,"degraded (top_k=1)":0,"差值":-1}]},{"t":"门禁判定明细","k":"pre","v":"THRESHOLD_FAIL recall_at_10=0.0 目标>=0.85\nTHRESHOLD_FAIL mrr=0.0 目标>=0.62\nTHRESHOLD_FAIL ndcg_at_10=0.0 目标>=0.7\nHARD_DROP recall_at_10: 1.0 -> 0.0 (delta=-1.0)\nHARD_DROP mrr: 1.0 -> 0.0 (delta=-1.0)\nHARD_DROP ndcg_at_10: 1.0 -> 0.0 (delta=-1.0)"},{"t":"口径说明（项目原文）","k":"text","v":"两次均为 pipeline_selfcheck（offline judge 桩）；本实验只验证门禁链路，检索指标来自确定性被测实现，不可当作系统质量结论"},{"t":"原始响应","k":"json","v":{"ok":true,"layers_stdout":"> F:\\MedEviRAG\\.venv\\Scripts\\python.exe -m medevirag.eval.layers build\n[WARN] SPLIT_DISTRIBUTION_MISMATCH: freeze.json 声称 {'dev': 128, 'test': 32}，实际 jsonl 是 {'dev': 160}；P0 不信任原 split 字段，改由本模块按确定性算法重新分层\n[layers] smoke_20: n=20 by_type={'answerable': 11, 'should_refuse': 6, 'multi_hop': 3} must_refuse=6\n[layers] core_80: n=80 by_type={'answerable': 45, 'multi_hop': 10, 'should_refuse': 25} must_refuse=25\n[layers] full_160: n=160 by_type={'answerable': 90, 'multi_hop': 20, 'should_refuse': 50} must_refuse=50\n[layers] meta -> F:\\MedEviRAG\\data\\eval\\layers\\layers_meta.json\n\n> F:\\MedEviRAG\\.venv\\Scripts\\python.exe -m medevirag.eval.layers verify\n[layers] verify OK\n\n> F:\\MedEviRAG\\.venv\\Scripts\\python.exe scripts/eval/degrade_probe.py\n[probe] recall_at_10: 1.0 -> 0.0\n[probe] hit_at_10: 1.0 -> 0.0\n[probe] mrr: 1.0 -> 0.0\n[probe] ndcg_at_10: 1.0 -> 0.0\n[GATE] THRESHOLD_FAIL recall_at_10=0.0 目标>=0.85\n[GATE] THRESHOLD_FAIL mrr=0.0 目标>=0.62\n[GATE] THRESHOLD_FAIL ndcg_at_10=0.0 目标>=0.7\n[GATE] HARD_DROP recall_at_10: 1.0 -> 0.0 (delta=-1.0)\n[GATE] HARD_DROP mrr: 1.0 -> 0.0 (delta=-1.0)\n[GATE] HARD_DROP ndcg_at_10: 1.0 -> 0.0 (delta=-1.0)\n[probe] gate=BLOCKED | evidence -> F:\\MedEviRAG\\data\\reports\\p0_degrade_probe.json\n","probe":{"purpose":"证明改动检索参数导致质量下降时，CI 门禁会真的拦住，而不是只报个数字","layer":"core_80","baseline_run_id":"20261113T0614_p0base_c77073b64dfc_core_80_k10","degraded_run_id":"20261113T0614_p0deg_c77073b64dfc_core_80_k1","baseline_top_k":10,"degraded_top_k":1,"baseline_metrics":{"recall_at_10":1,"hit_at_10":1,"mrr":1,"ndcg_at_10":1},"degraded_metrics":{"recall_at_10":0,"hit_at_10":0,"mrr":0,"ndcg_at_10":0},"gate_status":"BLOCKED","gate_problems":["THRESHOLD_FAIL recall_at_10=0.0 目标>=0.85","THRESHOLD_FAIL mrr=0.0 目标>=0.62","THRESHOLD_FAIL ndcg_at_10=0.0 目标>=0.7","HARD_DROP recall_at_10: 1.0 -> 0.0 (delta=-1.0)","HARD_DROP mrr: 1.0 -> 0.0 (delta=-1.0)","HARD_DROP ndcg_at_10: 1.0 -> 0.0 (delta=-1.0)"],"publishable":false,"note":"两次均为 pipeline_selfcheck（offline judge 桩）；本实验只验证门禁链路，检索指标来自确定性被测实现，不可当作系统质量结论"}}}],"http":200,"ms":1292},{"key":"snapshot_medevirag","g":"p4","title":"② 只读门禁快照（公网回退）","input":"kind=medevi","endpoint":"GET /api/eval/snapshot?kind=medevi","note":"不执行脚本，直接读 data/reports/p0_degrade_probe.json 的只读快照；公网访问评测页时走这条路径。","badges":[{"k":"只读","v":"true","cls":"ok"},{"k":"门禁","v":"BLOCKED","cls":"bad"},{"k":"可发布","v":"false","cls":"bad"}],"sections":[{"t":"门禁指标对比","k":"table","v":[{"指标":"recall_at_10","baseline (top_k=10)":1,"degraded (top_k=1)":0,"差值":-1},{"指标":"hit_at_10","baseline (top_k=10)":1,"degraded (top_k=1)":0,"差值":-1},{"指标":"mrr","baseline (top_k=10)":1,"degraded (top_k=1)":0,"差值":-1},{"指标":"ndcg_at_10","baseline (top_k=10)":1,"degraded (top_k=1)":0,"差值":-1}]},{"t":"门禁判定明细","k":"pre","v":"THRESHOLD_FAIL recall_at_10=0.0 目标>=0.85\nTHRESHOLD_FAIL mrr=0.0 目标>=0.62\nTHRESHOLD_FAIL ndcg_at_10=0.0 目标>=0.7\nHARD_DROP recall_at_10: 1.0 -> 0.0 (delta=-1.0)\nHARD_DROP mrr: 1.0 -> 0.0 (delta=-1.0)\nHARD_DROP ndcg_at_10: 1.0 -> 0.0 (delta=-1.0)"},{"t":"口径说明（项目原文）","k":"text","v":"两次均为 pipeline_selfcheck（offline judge 桩）；本实验只验证门禁链路，检索指标来自确定性被测实现，不可当作系统质量结论"},{"t":"快照说明","k":"text","v":"公网只读快照（data/reports/p0_degrade_probe.json）；实时评测仅本机 127.0.0.1:8787 可用"},{"t":"原始响应","k":"json","v":{"ok":true,"readonly":true,"probe":{"purpose":"证明改动检索参数导致质量下降时，CI 门禁会真的拦住，而不是只报个数字","layer":"core_80","baseline_run_id":"20261113T0614_p0base_c77073b64dfc_core_80_k10","degraded_run_id":"20261113T0614_p0deg_c77073b64dfc_core_80_k1","baseline_top_k":10,"degraded_top_k":1,"baseline_metrics":{"recall_at_10":1,"hit_at_10":1,"mrr":1,"ndcg_at_10":1},"degraded_metrics":{"recall_at_10":0,"hit_at_10":0,"mrr":0,"ndcg_at_10":0},"gate_status":"BLOCKED","gate_problems":["THRESHOLD_FAIL recall_at_10=0.0 目标>=0.85","THRESHOLD_FAIL mrr=0.0 目标>=0.62","THRESHOLD_FAIL ndcg_at_10=0.0 目标>=0.7","HARD_DROP recall_at_10: 1.0 -> 0.0 (delta=-1.0)","HARD_DROP mrr: 1.0 -> 0.0 (delta=-1.0)","HARD_DROP ndcg_at_10: 1.0 -> 0.0 (delta=-1.0)"],"publishable":false,"note":"两次均为 pipeline_selfcheck（offline judge 桩）；本实验只验证门禁链路，检索指标来自确定性被测实现，不可当作系统质量结论"},"note":"公网只读快照（data/reports/p0_degrade_probe.json）；实时评测仅本机 127.0.0.1:8787 可用"}}],"http":200,"ms":1},{"key":"eval_aichef","g":"p4","title":"③ 实时压测汇总（AI私厨）","input":"无请求体：执行项目自带 Locust CSV 汇总脚本","endpoint":"POST /api/eval/aichef","note":"真实执行 scripts/locust_report.py，汇总单体与网关在各并发下的 QPS / P95 / P99 与劣化拐点。","badges":[{"k":"HTTP","v":"200","cls":"ok"},{"k":"数据来源","v":"Locust CSV（本机实跑）","cls":""},{"k":"口径","v":"MOCK_LLM=true","cls":""}],"sections":[{"t":"压测报告（项目原文）","k":"md","v":"# AI 私厨 v3.0 · 阶段 10 性能压测报告\n\n> 数据来源：`F:\\pycharm_aiprogram\\ai_chief\\reports\\bench_20261021_171618` 下的 Locust CSV（本机实跑）\n> 口径说明：LLM 调用为 **Mock 模式**（`MOCK_LLM=true`），测的是本项目架构本身的容量，不含外部大模型服务的耗时。\n\n## 一、总览：并发 → 容量与劣化\n\n| 目标 | 并发 | 总请求 | 失败 | 失败率 | 总QPS | 平均ms | P95ms | P99ms | 已劣化 |\n|---|---|---|---|---|---|---|---|---|---|\n| 微服务（9100 经 Kong 网关） | 10 | 289 | 0 | 0.00% | 6.5 | 117 | 240 | 780 |  |\n| 单体（9002 直连） | 10 | 296 | 0 | 0.00% | 6.7 | 85 | 200 | 290 |  |\n| 微服务（9100 经 Kong 网关） | 20 | 586 | 0 | 0.00% | 13.2 | 98 | 210 | 310 |  |\n| 单体（9002 直连） | 20 | 590 | 0 | 0.00% | 13.3 | 93 | 210 | 350 |  |\n| 微服务（9100 经 Kong 网关） | 40 | 1169 | 0 | 0.00% | 26.4 | 111 | 260 | 400 |  |\n| 单体（9002 直连） | 40 | 1158 | 0 | 0.00% | 26.2 | 105 | 250 | 350 |  |\n| 微服务（9100 经 Kong 网关） | 60 | 1727 | 0 | 0.00% | 39.0 | 116 | 360 | 530 |  |\n| 单体（9002 直连） | 60 | 1630 | 0 | 0.00% | 36.8 | 217 | 730 | 3900 | 是 |\n\n## 二、单体 vs 微服务（同一并发、同一脚本）\n\n| 并发 | 场景 | 单体QPS | 网关QPS | 单体P99ms | 网关P99ms | 网关P99增幅 | 单体失败率 | 网关失败率 |\n|---|---|---|---|---|---|---|---|---|\n| 10 | 登录（/auth/login） | 1.50 | 1.74 | 200 | 200 | +0% | 0.00% | 0.00% |\n| 10 | 对话（/chat/stream） | 1.20 | 1.31 | 220 | 1800 | +718% | 0.00% | 0.00% |\n| 10 | 图谱问答（/kg/ask） | 3.57 | 3.03 | 28 | 690 | +2364% | 0.00% | 0.00% |\n| 20 | 登录（/auth/login） | 3.50 | 3.70 | 220 | 200 | -9% | 0.00% | 0.00% |\n| 20 | 对话（/chat/stream） | 2.32 | 2.17 | 140 | 210 | +50% | 0.00% | 0.00% |\n| 20 | 图谱问答（/kg/ask） | 6.59 | 6.45 | 20 | 14 | -30% | 0.00% | 0.00% |\n| 40 | 登录（/auth/login） | 7.52 | 7.71 | 250 | 300 | +20% | 0.00% | 0.00% |\n| 40 | 对话（/chat/stream） | 4.99 | 5.12 | 240 | 260 | +8% | 0.00% | 0.00% |\n| 40 | 图谱问答（/kg/ask） | 11.84 | 11.72 | 82 | 30 | -63% | 0.00% | 0.00% |\n| 60 | 登录（/auth/login） | 10.09 | 10.19 | 2700 | 390 | -86% | 0.00% | 0.00% |\n| 60 | 对话（/chat/stream） | 6.46 | 7.25 | 280 | 280 | +0% | 0.00% | 0.00% |\n| 60 | 图谱问答（/kg/ask） | 17.55 | 18.86 | 53 | 61 | +15% | 0.00% | 0.00% |\n\n## 三、结论（脚本自动判定，口径见下）\n\n- 劣化判定口径：错误率 > 1.0% **或** P99 > 1000 ms\n- 单体架构拐点：**60 并发**\n- 微服务架构拐点：**未触及（最高档仍达标）**\n- 网关开销中位数最大的场景：**对话**（各档中位数 +29%）\n- 网关开销中位数最小的场景：**图谱问答**（各档中位数 -7%）\n\n---\n\n### 复现方式\n\n```bash\nbash scripts/run_bench.sh all \"10,20,40,60\" 45\n.venv3/Scripts/python.exe scripts/locust_report.py --dir \u003c输出目录>\n```\n\n"},{"t":"报告目录","k":"kv","v":{"bench_dir":"F:/pycharm_aiprogram/ai_chief\\reports\\bench_20261021_171618"}},{"t":"原始响应","k":"json","v":{"ok":true,"report_md":"# AI 私厨 v3.0 · 阶段 10 性能压测报告\n\n> 数据来源：`F:\\pycharm_aiprogram\\ai_chief\\reports\\bench_20261021_171618` 下的 Locust CSV（本机实跑）\n> 口径说明：LLM 调用为 **Mock 模式**（`MOCK_LLM=true`），测的是本项目架构本身的容量，不含外部大模型服务的耗时。\n\n## 一、总览：并发 → 容量与劣化\n\n| 目标 | 并发 | 总请求 | 失败 | 失败率 | 总QPS | 平均ms | P95ms | P99ms | 已劣化 |\n|---|---|---|---|---|---|---|---|---|---|\n| 微服务（9100 经 Kong 网关） | 10 | 289 | 0 | 0.00% | 6.5 | 117 | 240 | 780 |  |\n| 单体（9002 直连） | 10 | 296 | 0 | 0.00% | 6.7 | 85 | 200 | 290 |  |\n| 微服务（9100 经 Kong 网关） | 20 | 586 | 0 | 0.00% | 13.2 | 98 | 210 | 310 |  |\n| 单体（9002 直连） | 20 | 590 | 0 | 0.00% | 13.3 | 93 | 210 | 350 |  |\n| 微服务（9100 经 Kong 网关） | 40 | 1169 | 0 | 0.00% | 26.4 | 111 | 260 | 400 |  |\n| 单体（9002 直连） | 40 | 1158 | 0 | 0.00% | 26.2 | 105 | 250 | 350 |  |\n| 微服务（9100 经 Kong 网关） | 60 | 1727 | 0 | 0.00% | 39.0 | 116 | 360 | 530 |  |\n| 单体（9002 直连） | 60 | 1630 | 0 | 0.00% | 36.8 | 217 | 730 | 3900 | 是 |\n\n## 二、单体 vs 微服务（同一并发、同一脚本）\n\n| 并发 | 场景 | 单体QPS | 网关QPS | 单体P99ms | 网关P99ms | 网关P99增幅 | 单体失败率 | 网关失败率 |\n|---|---|---|---|---|---|---|---|---|\n| 10 | 登录（/auth/login） | 1.50 | 1.74 | 200 | 200 | +0% | 0.00% | 0.00% |\n| 10 | 对话（/chat/stream） | 1.20 | 1.31 | 220 | 1800 | +718% | 0.00% | 0.00% |\n| 10 | 图谱问答（/kg/ask） | 3.57 | 3.03 | 28 | 690 | +2364% | 0.00% | 0.00% |\n| 20 | 登录（/auth/login） | 3.50 | 3.70 | 220 | 200 | -9% | 0.00% | 0.00% |\n| 20 | 对话（/chat/stream） | 2.32 | 2.17 | 140 | 210 | +50% | 0.00% | 0.00% |\n| 20 | 图谱问答（/kg/ask） | 6.59 | 6.45 | 20 | 14 | -30% | 0.00% | 0.00% |\n| 40 | 登录（/auth/login） | 7.52 | 7.71 | 250 | 300 | +20% | 0.00% | 0.00% |\n| 40 | 对话（/chat/stream） | 4.99 | 5.12 | 240 | 260 | +8% | 0.00% | 0.00% |\n| 40 | 图谱问答（/kg/ask） | 11.84 | 11.72 | 82 | 30 | -63% | 0.00% | 0.00% |\n| 60 | 登录（/auth/login） | 10.09 | 10.19 | 2700 | 390 | -86% | 0.00% | 0.00% |\n| 60 | 对话（/chat/stream） | 6.46 | 7.25 | 280 | 280 | +0% | 0.00% | 0.00% |\n| 60 | 图谱问答（/kg/ask） | 17.55 | 18.86 | 53 | 61 | +15% | 0.00% | 0.00% |\n\n## 三、结论（脚本自动判定，口径见下）\n\n- 劣化判定口径：错误率 > 1.0% **或** P99 > 1000 ms\n- 单体架构拐点：**60 并发**\n- 微服务架构拐点：**未触及（最高档仍达标）**\n- 网关开销中位数最大的场景：**对话**（各档中位数 +29%）\n- 网关开销中位数最小的场景：**图谱问答**（各档中位数 -7%）\n\n---\n\n### 复现方式\n\n```bash\nbash scripts/run_bench.sh all \"10,20,40,60\" 45\n.venv3/Scripts/python.exe scripts/locust_report.py --dir \u003c输出目录>\n```\n\n","bench_dir":"F:/pycharm_aiprogram/ai_chief\\reports\\bench_20261021_171618"}}],"http":200,"ms":64},{"key":"snapshot_aichef","g":"p4","title":"④ 只读压测快照（公网回退）","input":"kind=aichef","endpoint":"GET /api/eval/snapshot?kind=aichef","note":"直接读已有压测报告的只读快照，公网访问评测页时可用。","badges":[{"k":"只读","v":"true","cls":"ok"},{"k":"数据来源","v":"已有压测报告","cls":""}],"sections":[{"t":"压测报告（项目原文）","k":"md","v":"# AI 私厨 v3.0 · 阶段 10 性能压测报告\n\n> 数据来源：`reports\\bench_20261021_171618` 下的 Locust CSV（本机实跑）\n> 口径说明：LLM 调用为 **Mock 模式**（`MOCK_LLM=true`），测的是本项目架构本身的容量，不含外部大模型服务的耗时。\n\n## 一、总览：并发 → 容量与劣化\n\n| 目标 | 并发 | 总请求 | 失败 | 失败率 | 总QPS | 平均ms | P95ms | P99ms | 已劣化 |\n|---|---|---|---|---|---|---|---|---|---|\n| 微服务（9100 经 Kong 网关） | 10 | 289 | 0 | 0.00% | 6.5 | 117 | 240 | 780 |  |\n| 单体（9002 直连） | 10 | 296 | 0 | 0.00% | 6.7 | 85 | 200 | 290 |  |\n| 微服务（9100 经 Kong 网关） | 20 | 586 | 0 | 0.00% | 13.2 | 98 | 210 | 310 |  |\n| 单体（9002 直连） | 20 | 590 | 0 | 0.00% | 13.3 | 93 | 210 | 350 |  |\n| 微服务（9100 经 Kong 网关） | 40 | 1169 | 0 | 0.00% | 26.4 | 111 | 260 | 400 |  |\n| 单体（9002 直连） | 40 | 1158 | 0 | 0.00% | 26.2 | 105 | 250 | 350 |  |\n| 微服务（9100 经 Kong 网关） | 60 | 1727 | 0 | 0.00% | 39.0 | 116 | 360 | 530 |  |\n| 单体（9002 直连） | 60 | 1630 | 0 | 0.00% | 36.8 | 217 | 730 | 3900 | 是 |\n\n## 二、单体 vs 微服务（同一并发、同一脚本）\n\n| 并发 | 场景 | 单体QPS | 网关QPS | 单体P99ms | 网关P99ms | 网关P99增幅 | 单体失败率 | 网关失败率 |\n|---|---|---|---|---|---|---|---|---|\n| 10 | 登录（/auth/login） | 1.50 | 1.74 | 200 | 200 | +0% | 0.00% | 0.00% |\n| 10 | 对话（/chat/stream） | 1.20 | 1.31 | 220 | 1800 | +718% | 0.00% | 0.00% |\n| 10 | 图谱问答（/kg/ask） | 3.57 | 3.03 | 28 | 690 | +2364% | 0.00% | 0.00% |\n| 20 | 登录（/auth/login） | 3.50 | 3.70 | 220 | 200 | -9% | 0.00% | 0.00% |\n| 20 | 对话（/chat/stream） | 2.32 | 2.17 | 140 | 210 | +50% | 0.00% | 0.00% |\n| 20 | 图谱问答（/kg/ask） | 6.59 | 6.45 | 20 | 14 | -30% | 0.00% | 0.00% |\n| 40 | 登录（/auth/login） | 7.52 | 7.71 | 250 | 300 | +20% | 0.00% | 0.00% |\n| 40 | 对话（/chat/stream） | 4.99 | 5.12 | 240 | 260 | +8% | 0.00% | 0.00% |\n| 40 | 图谱问答（/kg/ask） | 11.84 | 11.72 | 82 | 30 | -63% | 0.00% | 0.00% |\n| 60 | 登录（/auth/login） | 10.09 | 10.19 | 2700 | 390 | -86% | 0.00% | 0.00% |\n| 60 | 对话（/chat/stream） | 6.46 | 7.25 | 280 | 280 | +0% | 0.00% | 0.00% |\n| 60 | 图谱问答（/kg/ask） | 17.55 | 18.86 | 53 | 61 | +15% | 0.00% | 0.00% |\n\n## 三、结论（脚本自动判定，口径见下）\n\n- 劣化判定口径：错误率 > 1.0% **或** P99 > 1000 ms\n- 单体架构拐点：**60 并发**\n- 微服务架构拐点：**未触及（最高档仍达标）**\n- 网关开销中位数最大的场景：**对话**（各档中位数 +29%）\n- 网关开销中位数最小的场景：**图谱问答**（各档中位数 -7%）\n\n---\n\n### 复现方式\n\n```bash\nbash scripts/run_bench.sh all \"10,20,40,60\" 45\n.venv3/Scripts/python.exe scripts/locust_report.py --dir \u003c输出目录>\n```\n"},{"t":"快照说明","k":"text","v":"公网只读快照（已有压测报告）；实时压测汇总仅本机可用"},{"t":"原始响应","k":"json","v":{"ok":true,"readonly":true,"report_md":"# AI 私厨 v3.0 · 阶段 10 性能压测报告\n\n> 数据来源：`reports\\bench_20261021_171618` 下的 Locust CSV（本机实跑）\n> 口径说明：LLM 调用为 **Mock 模式**（`MOCK_LLM=true`），测的是本项目架构本身的容量，不含外部大模型服务的耗时。\n\n## 一、总览：并发 → 容量与劣化\n\n| 目标 | 并发 | 总请求 | 失败 | 失败率 | 总QPS | 平均ms | P95ms | P99ms | 已劣化 |\n|---|---|---|---|---|---|---|---|---|---|\n| 微服务（9100 经 Kong 网关） | 10 | 289 | 0 | 0.00% | 6.5 | 117 | 240 | 780 |  |\n| 单体（9002 直连） | 10 | 296 | 0 | 0.00% | 6.7 | 85 | 200 | 290 |  |\n| 微服务（9100 经 Kong 网关） | 20 | 586 | 0 | 0.00% | 13.2 | 98 | 210 | 310 |  |\n| 单体（9002 直连） | 20 | 590 | 0 | 0.00% | 13.3 | 93 | 210 | 350 |  |\n| 微服务（9100 经 Kong 网关） | 40 | 1169 | 0 | 0.00% | 26.4 | 111 | 260 | 400 |  |\n| 单体（9002 直连） | 40 | 1158 | 0 | 0.00% | 26.2 | 105 | 250 | 350 |  |\n| 微服务（9100 经 Kong 网关） | 60 | 1727 | 0 | 0.00% | 39.0 | 116 | 360 | 530 |  |\n| 单体（9002 直连） | 60 | 1630 | 0 | 0.00% | 36.8 | 217 | 730 | 3900 | 是 |\n\n## 二、单体 vs 微服务（同一并发、同一脚本）\n\n| 并发 | 场景 | 单体QPS | 网关QPS | 单体P99ms | 网关P99ms | 网关P99增幅 | 单体失败率 | 网关失败率 |\n|---|---|---|---|---|---|---|---|---|\n| 10 | 登录（/auth/login） | 1.50 | 1.74 | 200 | 200 | +0% | 0.00% | 0.00% |\n| 10 | 对话（/chat/stream） | 1.20 | 1.31 | 220 | 1800 | +718% | 0.00% | 0.00% |\n| 10 | 图谱问答（/kg/ask） | 3.57 | 3.03 | 28 | 690 | +2364% | 0.00% | 0.00% |\n| 20 | 登录（/auth/login） | 3.50 | 3.70 | 220 | 200 | -9% | 0.00% | 0.00% |\n| 20 | 对话（/chat/stream） | 2.32 | 2.17 | 140 | 210 | +50% | 0.00% | 0.00% |\n| 20 | 图谱问答（/kg/ask） | 6.59 | 6.45 | 20 | 14 | -30% | 0.00% | 0.00% |\n| 40 | 登录（/auth/login） | 7.52 | 7.71 | 250 | 300 | +20% | 0.00% | 0.00% |\n| 40 | 对话（/chat/stream） | 4.99 | 5.12 | 240 | 260 | +8% | 0.00% | 0.00% |\n| 40 | 图谱问答（/kg/ask） | 11.84 | 11.72 | 82 | 30 | -63% | 0.00% | 0.00% |\n| 60 | 登录（/auth/login） | 10.09 | 10.19 | 2700 | 390 | -86% | 0.00% | 0.00% |\n| 60 | 对话（/chat/stream） | 6.46 | 7.25 | 280 | 280 | +0% | 0.00% | 0.00% |\n| 60 | 图谱问答（/kg/ask） | 17.55 | 18.86 | 53 | 61 | +15% | 0.00% | 0.00% |\n\n## 三、结论（脚本自动判定，口径见下）\n\n- 劣化判定口径：错误率 > 1.0% **或** P99 > 1000 ms\n- 单体架构拐点：**60 并发**\n- 微服务架构拐点：**未触及（最高档仍达标）**\n- 网关开销中位数最大的场景：**对话**（各档中位数 +29%）\n- 网关开销中位数最小的场景：**图谱问答**（各档中位数 -7%）\n\n---\n\n### 复现方式\n\n```bash\nbash scripts/run_bench.sh all \"10,20,40,60\" 45\n.venv3/Scripts/python.exe scripts/locust_report.py --dir \u003c输出目录>\n```\n","bench_dir":"F:/pycharm_aiprogram/ai_chief\\reports\\bench_20261021_171618","note":"公网只读快照（已有压测报告）；实时压测汇总仅本机可用"}}],"http":200,"ms":1}]};
+const META = {
+ 'p1_answer':{q:'高血压患者日常食养',tag:'正常回答'},
+ 'p1_cache':{q:'高血压患者日常食养（再次提问）',tag:'缓存命中'},
+ 'p1_outofscope':{q:'如何给汽车更换轮胎',tag:'证据不足拒答'},
+ 'p1_empty_evidence':{q:'高血压患者日常食养（过滤不存在的文档）',tag:'过滤器空证据'},
+ 'p1_citation':{q:'查看引用 C1 原文（第 6 页）',tag:'引用回链'},
+ 'chat_dinner':{q:'糖尿病晚餐与低油菜谱咨询',tag:'工作流 · 完整对话'},
+ 'chat_workflow':{q:'用现有食材做低油晚餐',tag:'工作流 · 降级路径'},
+ 'kg_potato_diabetes':{q:'土豆 + 糖尿病',tag:'知识图谱 · 命中禁忌'},
+ 'kg_rice_hypertension':{q:'米饭 + 高血压',tag:'知识图谱 · 无禁忌关联'},
+ 'kg_spinach_kidney':{q:'菠菜 + 肾结石',tag:'知识图谱 · 无禁忌关联'},
+ 'kg_stats':{q:'查询知识图谱规模',tag:'知识图谱 · 规模'},
+ 'eval_medevirag':{q:'执行分层评测与劣化探针',tag:'实时评测'},
+ 'snapshot_medevirag':{q:'kind=medevi',tag:'只读门禁快照'},
+ 'eval_aichef':{q:'执行压测汇总脚本',tag:'实时压测'},
+ 'snapshot_aichef':{q:'kind=aichef',tag:'只读压测快照'}
+};
+const GROUPS = [
+ {id:'medevi',items:DATA.p1},
+ {id:'workflow',items:DATA.p3},
+ {id:'kg',items:DATA.p2},
+ {id:'eval',items:DATA.p4}
+];
+const qOf = (it) => (META[it.key] && META[it.key].q) || it.title;
+const tagOf = (it) => (META[it.key] && META[it.key].tag) || '';
+const groupOf = (gid) => GROUPS.filter(x => x.id === gid)[0];
+const findEx = (gid, key) => groupOf(gid).items.filter(x => x.key === key)[0];
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nl = (s) => esc(s).replace(/\n/g, '<br>');
+function tbl(rows){
+  if(!rows || !rows.length) return '<div class="muted">（空）</div>';
+  const keys = [];
+  rows.forEach(r => Object.keys(r || {}).forEach(k => { if(keys.indexOf(k) < 0) keys.push(k); }));
+  return '<table class="tbl"><thead><tr>' + keys.map(k => '<th>' + esc(k) + '</th>').join('') + '</tr></thead><tbody>' + rows.map(r => '<tr>' + keys.map(k => '<td>' + nl(typeof r[k] === 'object' ? JSON.stringify(r[k]) : r[k]) + '</td>').join('') + '</tr>').join('') + '</tbody></table>';
+}
+function kv(o){ return tbl(Object.keys(o || {}).map(k => ({'字段': k, '值': typeof o[k] === 'object' ? JSON.stringify(o[k]) : o[k]}))); }
+function md(s){
+  const lines = String(s || '').split('\n'); const out = []; let i = 0;
+  while(i < lines.length){
+    const L = lines[i];
+    if(/^\|/.test(L)){
+      const rows = [];
+      while(i < lines.length && /^\|/.test(lines[i])){ const c = lines[i].split('|').slice(1,-1).map(x => x.trim()); if(!c.every(x => /^:?-+:?$/.test(x))) rows.push(c); i++; }
+      if(rows.length){ const head = rows[0]; out.push('<table class="tbl"><thead><tr>' + head.map(h => '<th>' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' + rows.slice(1).map(r => '<tr>' + head.map((_, j) => '<td>' + esc(r[j] || '') + '</td>').join('') + '</tr>').join('') + '</tbody></table>'); }
+      continue;
+    }
+    if(/^#{1,6}\s/.test(L)){ out.push('<h4>' + esc(L.replace(/^#{1,6}\s+/, '')) + '</h4>'); i++; continue; }
+    if(/^>\s?/.test(L)){ out.push('<div class="quote">' + nl(L.replace(/^>\s?/, '')) + '</div>'); i++; continue; }
+    if(/^\s*$/.test(L)){ i++; continue; }
+    out.push('<div class="para">' + nl(L) + '</div>'); i++;
+  }
+  return out.join('');
+}
+function renderCitations(list){
+  if(!list || !list.length) return '<div class="muted">（无引用）</div>';
+  return '<div class="cit-scroll">' + list.map((c, j) =>
+    '<div class="cit">'
+    + '<div class="cit-h"><span class="tag">[C' + (j + 1) + ']</span> ' + esc(c.doc_title) + ' · 第 ' + esc(c.page) + ' 页</div>'
+    + '<div class="cit-meta">' + esc((c.section_path || []).join(' / ')) + ' · 证据等级：' + esc(c.evidence_level) + ' · ' + esc(c.chunk_id) + '</div>'
+    + '<div class="cit-q"><pre>' + esc(c.quote || '') + '</pre></div>'
+    + '<div class="cit-url">' + esc(c.url || '') + '</div>'
+    + '</div>').join('') + '</div>';
+}
+function renderSec(s){
+  let body; const v = s.v;
+  if(s.k === 'text') body = '<div class="txt">' + nl(v) + '</div>';
+  else if(s.k === 'pre') body = '<pre>' + esc(v) + '</pre>';
+  else if(s.k === 'kv') body = kv(v);
+  else if(s.k === 'table') body = tbl(v);
+  else if(s.k === 'citations') body = renderCitations(v);
+  else if(s.k === 'md') body = md(v);
+  else if(s.k === 'json') body = '<pre>' + esc(JSON.stringify(v, null, 2)) + '</pre>';
+  else body = '<pre>' + esc(String(v)) + '</pre>';
+  return (s.t ? '<h3>' + esc(s.t) + '</h3>' : '') + body;
+}
+function render(gid, key){
+  const ex = findEx(gid, key);
+  const box = document.getElementById('out-' + gid);
+  if(!ex){ box.innerHTML = ''; return; }
+  box.innerHTML = '<div class="out-title">系统回答</div>'
+    + '<div class="row badges">' + ex.badges.map(b => '<span class="badge ' + (b.cls || '') + '">' + esc(b.k) + '：' + esc(b.v) + '</span>').join('') + '</div>'
+    + '<div class="meta">接口：<code>' + esc(ex.endpoint) + '</code> · 输入：<code>' + esc(ex.input) + '</code> · HTTP ' + ex.http + ' · 本机耗时 ' + ex.ms + ' ms</div>'
+    + (ex.note ? '<div class="note">' + esc(ex.note) + '</div>' : '')
+    + '<hr class="sep">'
+    + ex.sections.map(renderSec).join('<hr class="sep">');
+  document.getElementById('sel-' + gid).value = ex.key;
+  document.querySelectorAll('#chips-' + gid + ' .chip').forEach(b => b.classList.toggle('active', b.getAttribute('data-k') === ex.key));
+  jumpTo('out-' + gid);
+}
+function clearGroup(gid){
+  document.getElementById('sel-' + gid).value = '';
+  document.getElementById('out-' + gid).innerHTML = '';
+  document.querySelectorAll('#chips-' + gid + ' .chip').forEach(b => b.classList.remove('active'));
+}
+function jumpTo(id){ const el = document.getElementById(id); if(el && el.scrollIntoView) el.scrollIntoView({behavior:'smooth', block:'start'}); }
+GROUPS.forEach(g => {
+  const sel = document.getElementById('sel-' + g.id);
+  sel.innerHTML = '<option value="">请选择输入…</option>' + g.items.map(x => '<option value="' + esc(x.key) + '">' + esc(qOf(x)) + '</option>').join('');
+  sel.addEventListener('change', () => { if(!sel.value){ clearGroup(g.id); return; } render(g.id, sel.value); });
+  const chips = document.getElementById('chips-' + g.id);
+  chips.innerHTML = g.items.map(x => '<span class="chip-wrap"><small class="chip-tag">' + esc(tagOf(x)) + '</small><button type="button" class="chip" data-k="' + esc(x.key) + '">' + esc(qOf(x)) + '</button></span>').join('');
+  chips.addEventListener('click', e => { const b = e.target.closest('button[data-k]'); if(b) render(g.id, b.getAttribute('data-k')); });
+  document.getElementById('clear-' + g.id).addEventListener('click', () => clearGroup(g.id));
+});
+document.getElementById('clear-all').addEventListener('click', () => { GROUPS.forEach(g => clearGroup(g.id)); window.scrollTo({top:0, behavior:'smooth'}); });
+document.querySelectorAll('.nav a[href^="#"]:not(.back)').forEach(a => a.addEventListener('click', e => {
+  const t = document.querySelector(a.getAttribute('href'));
+  if(t){ e.preventDefault(); document.querySelectorAll('.nav a').forEach(x => x.classList.remove('active')); a.classList.add('active'); t.scrollIntoView({behavior:'smooth', block:'start'}); }
+}));
+</script>
+</body>
+</html>
